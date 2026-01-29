@@ -1,0 +1,60 @@
+# Render.com Blueprint for Audience Research API Test Suite
+# https://render.com/docs/blueprint-spec
+
+services:
+  # 方式1: 作为 Cron Job 定时运行测试
+  - type: cron
+    name: audience-research-api-tests
+    runtime: node
+    schedule: "0 8 * * *"  # 每天早上8点运行
+    buildCommand: npm install
+    startCommand: node runner.js --report
+    envVars:
+      - key: API_BASE_URL
+        sync: false  # 手动设置
+      - key: API_KEY
+        sync: false  # 手动设置
+      - key: TEST_ACCOUNT_ID
+        value: "1"
+      - key: NODE_ENV
+        value: production
+
+  # 方式2: 作为 Web Service 提供 API 触发测试
+  # - type: web
+  #   name: audience-research-test-api
+  #   runtime: node
+  #   buildCommand: npm install
+  #   startCommand: node server.js
+  #   healthCheckPath: /health
+  #   envVars:
+  #     - key: API_BASE_URL
+  #       sync: false
+  #     - key: API_KEY
+  #       sync: false
+  #     - key: PORT
+  #       value: "10000"
+
+  # 方式3: 作为 Background Worker 持续监控
+  # - type: worker
+  #   name: audience-research-monitor
+  #   runtime: node
+  #   buildCommand: npm install
+  #   startCommand: node monitor.js
+  #   envVars:
+  #     - key: API_BASE_URL
+  #       sync: false
+  #     - key: API_KEY
+  #       sync: false
+  #     - key: CHECK_INTERVAL_MS
+  #       value: "300000"  # 5分钟
+
+# 环境变量组 (可选，用于多服务共享)
+envVarGroups:
+  - name: api-test-config
+    envVars:
+      - key: API_BASE_URL
+        value: "http://your-api-server:8877"
+      - key: API_KEY
+        value: "your_api_key"
+      - key: TEST_ACCOUNT_ID
+        value: "1"
