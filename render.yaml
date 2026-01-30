@@ -53,7 +53,7 @@ envVarGroups:
   - name: api-test-config
     envVars:
       - key: API_BASE_URL
-        value: "http://your-api-server:8877"
+        value: "https://ext.survy.ai"
       - key: API_KEY
         value: "your_api_key"
       - key: TEST_ACCOUNT_ID

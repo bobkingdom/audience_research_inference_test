@@ -2,7 +2,7 @@
  * Default configuration for API tests
  */
 export default {
-  baseUrl: process.env.API_BASE_URL || 'http://localhost:8877',
+  baseUrl: process.env.API_BASE_URL || 'https://ext.survy.ai',
   apiKey: process.env.API_KEY || 'outsea_fu9etech',
   testAccountId: parseInt(process.env.TEST_ACCOUNT_ID || '1', 10),
   timeout: {
