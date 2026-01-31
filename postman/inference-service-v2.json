@@ -1,0 +1,966 @@
+{
+  "info": {
+    "name": "Inference Service V2 - 推理服务API",
+    "description": "推理服务 V2 完整 API 接口集合\n\n前端零改动版，API 路径与原项目完全一致。\n\n## 环境变量\n- `base_url`: 服务器地址，如 http://localhost:8877\n- `api_key`: API 密钥",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "inference-service-v2-collection"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8877",
+      "type": "string"
+    },
+    {
+      "key": "api_key",
+      "value": "outsea_fu9etech",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{api_key}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "健康检查",
+      "item": [
+        {
+          "name": "健康检查",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/inference/health"
+          }
+        },
+        {
+          "name": "就绪检查",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/inference/ready"
+          }
+        }
+      ]
+    },
+    {
+      "name": "受众画像生成 (/api/v1/audience-generate)",
+      "item": [
+        {
+          "name": "意图分析",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/intent-analysis",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_input\": \"我想为一款面向年轻女性的护肤品寻找目标受众\"\n}"
+            }
+          }
+        },
+        {
+          "name": "生成画像 (Personas)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/personas",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_input\": \"面向年轻女性的护肤品\",\n  \"segment_count\": 3\n}"
+            }
+          }
+        },
+        {
+          "name": "完整生成流程",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/complete",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_input\": \"面向年轻女性的护肤品\",\n  \"segment_count\": 3\n}"
+            }
+          }
+        },
+        {
+          "name": "创建分步任务",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/task/create",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": 1,\n  \"task_name\": \"护肤品受众生成\",\n  \"user_input\": \"面向年轻女性的护肤品\"\n}"
+            }
+          }
+        },
+        {
+          "name": "执行任务-意图分析",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/task/123/intent",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_input\": \"面向年轻女性的护肤品\"\n}"
+            }
+          }
+        },
+        {
+          "name": "执行任务-生成画像",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/task/123/personas",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segment_count\": 3\n}"
+            }
+          }
+        },
+        {
+          "name": "执行任务-生成受众",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/task/123/audiences",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"audience_per_persona\": 5,\n  \"use_parallel\": true,\n  \"num_threads\": 5\n}"
+            }
+          }
+        },
+        {
+          "name": "查询任务进度",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/audience-generate/task/123?include_details=true"
+          }
+        },
+        {
+          "name": "分析可恢复状态",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/audience-generate/task/123/analyze-resume"
+          }
+        },
+        {
+          "name": "恢复中断任务",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/task/123/resume",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resume_step\": \"audiences\",\n  \"continue_from_failed\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "单个细分重命名",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/segment/rename",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segment_id\": 1327,\n  \"generate_language\": \"Chinese\",\n  \"async_mode\": false,\n  \"update_db\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "批量细分重命名",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/segment/batch-rename",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": 123,\n  \"generate_language\": \"Chinese\",\n  \"async_mode\": false,\n  \"update_db\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "受众洞察分析",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/audience/insight",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"audience_id\": 12345,\n  \"insight_type\": \"comprehensive\"\n}"
+            }
+          }
+        },
+        {
+          "name": "检查人设完整性",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/audience-generate/audience/personality-integrity?account_id=1&task_id=123"
+          }
+        },
+        {
+          "name": "账号人设完整性统计",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/audience-generate/audience/personality-integrity/by-account?account_id=1"
+          }
+        },
+        {
+          "name": "访谈内容提取",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/interview/extract",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"interview_transcript\": \"访谈内容...\",\n  \"account_id\": 1,\n  \"product_info\": {\n    \"category\": \"护肤品\",\n    \"name\": \"XX面霜\"\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "获取提取记录",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/audience-generate/interview/extraction/123"
+          }
+        },
+        {
+          "name": "列表提取记录",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/audience-generate/interview/extractions?account_id=1&page=1&page_size=20"
+          }
+        },
+        {
+          "name": "删除提取记录",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/api/v1/audience-generate/interview/extraction/123"
+          }
+        },
+        {
+          "name": "提取结果转受众",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/interview/extraction-to-audience",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"extraction_id\": 123,\n  \"account_id\": 1,\n  \"audience_task_id\": 456\n}"
+            }
+          }
+        },
+        {
+          "name": "批量生成system_prompt",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/batch-generate-prompt",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"audience_ids\": [1, 2, 3],\n  \"force_regenerate\": false,\n  \"batch_size\": 10\n}"
+            }
+          }
+        },
+        {
+          "name": "预生成system_prompt",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/batch-pregenerate-prompt",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": 123,\n  \"batch_size\": 10,\n  \"dry_run\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "基于segments批量生成受众",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/audience-generate/segments/audiences",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segment_ids\": [1, 2, 3],\n  \"audience_per_segment\": 5,\n  \"account_id\": 1\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "焦点小组 (/api/focus-group)",
+      "item": [
+        {
+          "name": "创建焦点小组",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/focus-group/create",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": 1,\n  \"title\": \"护肤品用户研究\",\n  \"topic\": \"了解年轻女性护肤习惯\",\n  \"background\": \"市场调研背景\",\n  \"research_objectives\": [\"了解购买动机\", \"了解使用场景\"]\n}"
+            }
+          }
+        },
+        {
+          "name": "批量添加参与者",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/focus-group/123/participants",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"audience_ids\": [1, 2, 3, 4, 5]\n}"
+            }
+          }
+        },
+        {
+          "name": "获取参与者列表",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/focus-group/123/participants/list",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"page_size\": 20,\n  \"include_message_stats\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "启动焦点小组",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/focus-group/123/start"
+          }
+        },
+        {
+          "name": "获取智能决策",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/focus-group/123/next-decision"
+          }
+        },
+        {
+          "name": "更新焦点小组",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base_url}}/api/focus-group/123",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"更新后的标题\",\n  \"status\": \"active\"\n}"
+            }
+          }
+        },
+        {
+          "name": "发送主持人消息",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/focus-group/123/host-message",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"host_prompt\": \"大家好，请分享一下你们日常的护肤习惯？\",\n  \"message_type\": \"question\"\n}"
+            }
+          }
+        },
+        {
+          "name": "生成单个参与者回答",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/focus-group/123/participant-response",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"participant_id\": 456,\n  \"host_message\": \"请分享你的护肤习惯\",\n  \"account_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "批量生成参与者回答",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/focus-group/123/batch-participant-response",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"participant_ids\": [1, 2, 3, 4, 5],\n  \"host_message\": \"请分享你的护肤习惯\",\n  \"account_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "查询批量任务进度",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/focus-group/123/batch-task/task-uuid-here"
+          }
+        },
+        {
+          "name": "获取活跃批量任务",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/focus-group/123/active-batch-task"
+          }
+        },
+        {
+          "name": "获取消息列表",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/focus-group/123/messages",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"limit\": 50,\n  \"offset\": 0,\n  \"include_metadata\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "提取洞察",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/focus-group/123/extract-insights",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recent_messages_count\": 20,\n  \"insight_type\": \"all\",\n  \"confidence_threshold\": 0.7,\n  \"max_insights\": 10\n}"
+            }
+          }
+        },
+        {
+          "name": "获取洞察列表",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/focus-group/123/insights",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"limit\": 20,\n  \"offset\": 0,\n  \"confidence_min\": 0.5\n}"
+            }
+          }
+        },
+        {
+          "name": "检查问题准备就绪",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/focus-group/123/check-questions-ready"
+          }
+        },
+        {
+          "name": "获取报告类型列表",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/focus-group/report-types/list"
+          }
+        },
+        {
+          "name": "获取焦点小组摘要",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/focus-group/123/summary?regenerate=false&report_type=comprehensive"
+          }
+        },
+        {
+          "name": "批量生成system_prompt",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/focus-group/123/batch-generate-prompts"
+          }
+        },
+        {
+          "name": "结束焦点小组",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/focus-group/123/end"
+          }
+        },
+        {
+          "name": "获取焦点小组列表",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/focus-group/list?account_id=1&page=1&page_size=20"
+          }
+        }
+      ]
+    },
+    {
+      "name": "向量搜索 (/api/v1/vector)",
+      "item": [
+        {
+          "name": "语义搜索",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/vector/search/semantic",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"年轻女性护肤品用户\",\n  \"limit\": 10,\n  \"threshold\": 0.7,\n  \"account_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "相似度搜索",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/vector/search/similar",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reference_id\": 12345,\n  \"limit\": 10,\n  \"threshold\": 0.8\n}"
+            }
+          }
+        },
+        {
+          "name": "多模态搜索",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/vector/search/multimodal",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text_query\": \"年轻女性\",\n  \"image_url\": \"https://example.com/image.jpg\",\n  \"limit\": 10\n}"
+            }
+          }
+        },
+        {
+          "name": "健康检查",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/vector/health"
+          }
+        },
+        {
+          "name": "获取搜索统计",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/vector/stats"
+          }
+        },
+        {
+          "name": "账号向量统计",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/vector/stats/account",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "任务向量统计",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/vector/stats/task",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": 1,\n  \"task_id\": 123\n}"
+            }
+          }
+        },
+        {
+          "name": "租户分布统计",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/vector/stats/distribution",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+        {
+          "name": "重新加载FAISS索引",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/vector/reload-index"
+          }
+        },
+        {
+          "name": "重建FAISS索引",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/vector/rebuild-index"
+          }
+        }
+      ]
+    },
+    {
+      "name": "内容生成 (/api)",
+      "item": [
+        {
+          "name": "生成内容文章",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/survey/123/generate-article",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"batch_id\": \"batch-uuid\",\n  \"account_id\": 1,\n  \"content_type\": \"blog\",\n  \"product_name\": \"XX护肤品\",\n  \"key_insights\": [\"洞察1\", \"洞察2\"],\n  \"force_regenerate\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "获取生成历史",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/content-generation/history/1?page=1&page_size=20"
+          }
+        },
+        {
+          "name": "获取生成统计",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/content-generation/statistics/1"
+          }
+        },
+        {
+          "name": "更新文章内容",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/content-generation/update",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"record_id\": 123,\n  \"content\": \"更新后的内容\",\n  \"title\": \"更新后的标题\",\n  \"account_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "生成Reddit评论",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/generate-reddit-comment",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"platform\": \"reddit\",\n  \"url\": \"https://reddit.com/r/example\",\n  \"post\": {\n    \"title\": \"帖子标题\",\n    \"content\": \"帖子内容\"\n  },\n  \"account_id\": 1,\n  \"product_name\": \"XX产品\",\n  \"tone\": \"friendly\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "头像管理 (/api/avatars)",
+      "item": [
+        {
+          "name": "头像服务健康检查",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/avatars/health"
+          }
+        },
+        {
+          "name": "重新生成默认头像",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/avatars/regenerate",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": 1,\n  \"task_id\": 123,\n  \"batch_size\": 10,\n  \"dry_run\": false,\n  \"force_regenerate\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "查询头像重生成状态",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/avatars/regenerate/task-id-here/status"
+          }
+        },
+        {
+          "name": "列出重生成任务",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/avatars/regenerate/tasks"
+          }
+        },
+        {
+          "name": "创建批量异步头像生成",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/avatars/batch-generate",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": 123,\n  \"audience_ids\": [1, 2, 3],\n  \"task_name\": \"批量头像生成\"\n}"
+            }
+          }
+        },
+        {
+          "name": "查询批量头像生成进度",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/avatars/batch-progress/batch-task-id"
+          }
+        },
+        {
+          "name": "列出批量头像任务",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/avatars/batch-tasks?limit=10"
+          }
+        },
+        {
+          "name": "取消批量头像任务",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/api/avatars/batch-tasks/batch-task-id"
+          }
+        },
+        {
+          "name": "OpenRouter生成单个头像",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/avatars/openrouter-generate",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"gender\": \"Female\",\n  \"age\": 25,\n  \"position\": \"Marketing Manager\",\n  \"location\": \"Shanghai\",\n  \"industry\": \"Beauty\",\n  \"upload_to_r2\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "批量OpenRouter生成头像",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/avatars/openrouter-batch-generate",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"audiences\": [\n    {\"gender\": \"Female\", \"age\": 25},\n    {\"gender\": \"Male\", \"age\": 30}\n  ],\n  \"upload_to_r2\": true,\n  \"max_concurrent\": 5\n}"
+            }
+          }
+        },
+        {
+          "name": "扫描中文头像URL",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/avatars/scan-chinese-avatars"
+          }
+        },
+        {
+          "name": "修复中文头像URL",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/avatars/fix-chinese-avatars",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": 123,\n  \"account_id\": 1,\n  \"dry_run\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "查询中文头像修复状态",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/avatars/fix-chinese-avatars/task-id/status"
+          }
+        },
+        {
+          "name": "修复Unknown性别头像",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/avatars/fix-unknown-gender-avatars",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": 123,\n  \"account_id\": 1,\n  \"dry_run\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "查询Unknown性别修复状态",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/avatars/fix-unknown-gender-avatars/task-id/status"
+          }
+        }
+      ]
+    },
+    {
+      "name": "问卷异步 (/api/async-survey)",
+      "item": [
+        {
+          "name": "异步生成/投放问卷",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/async-survey/generate-async",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"survey_id\": 123,\n  \"account_id\": 1,\n  \"segment_ids\": [1, 2],\n  \"audience_ids\": [1, 2, 3],\n  \"response_mode\": \"parallel\",\n  \"save_to_db\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "查询异步任务状态",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/async-survey/generate-async/task-id?account_id=1"
+          }
+        },
+        {
+          "name": "取消/删除异步任务",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/api/async-survey/generate-async/task-id"
+          }
+        },
+        {
+          "name": "列表异步任务",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/async-survey/generate-async-tasks?account_id=1&page=1&page_size=20"
+          }
+        },
+        {
+          "name": "查询投放任务状态",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/async-survey/deployment-status/batch-id"
+          }
+        },
+        {
+          "name": "通过批次ID查询问卷",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/async-survey/survey-by-batch/batch-id"
+          }
+        },
+        {
+          "name": "恢复中断的问卷投放",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/async-survey/batch/batch-id/resume"
+          }
+        },
+        {
+          "name": "并发投放问卷",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/async-survey/deploy-parallel",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"survey_id\": 123,\n  \"account_id\": 1,\n  \"segment_ids\": [1, 2],\n  \"audience_ids\": [1, 2, 3],\n  \"num_threads\": 5,\n  \"save_to_db\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "检查批次投放心跳状态",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/async-survey/batch/batch-id/heartbeat"
+          }
+        }
+      ]
+    }
+  ]
+}

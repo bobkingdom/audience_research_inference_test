@@ -1,0 +1,5484 @@
+{
+  "info": {
+    "_postman_id": "backhour-ai-api-collection",
+    "name": "Backhour AI API",
+    "description": "Backhour AI 完整API接口集合\n\n生成时间: 2026-01-27T12:24:59.583804\n\n使用前请设置环境变量:\n- base_url: API基础地址\n- api_key: API密钥\n- user_token: 用户JWT Token\n- admin_token: 管理员JWT Token",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "api_key",
+      "value": "your-api-key",
+      "type": "string"
+    },
+    {
+      "key": "user_token",
+      "value": "your-jwt-token",
+      "type": "string"
+    },
+    {
+      "key": "admin_token",
+      "value": "your-admin-token",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "用户中心",
+      "item": [
+        {
+          "name": "使用兑换码",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/redeem",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "user",
+                "redeem"
+              ]
+            },
+            "description": "使用兑换码兑换VIP和积分\n\n- 验证兑换码是否有效（存在、未使用、未过期）\n- 兑换成功后更新用户VIP状态和过期时间\n- 添加对应积分到用户账户",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"example_code\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "验证兑换码",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/redeem/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "user",
+                "redeem",
+                "validate"
+              ]
+            },
+            "description": "验证兑换码是否有效\n\n返回兑换码的状态和详细信息（如果有效）",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"example_code\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "获取兑换历史",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/redeem/history",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "user",
+                "redeem",
+                "history"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "页码",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "20",
+                  "description": "每页数量",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "获取当前用户的兑换码使用历史\n\n返回用户已使用的所有兑换码记录"
+          }
+        },
+        {
+          "name": "获取积分余额",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/credits",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "user",
+                "credits"
+              ]
+            },
+            "description": "获取当前用户的积分余额"
+          }
+        },
+        {
+          "name": "获取积分交易记录",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/credits/transactions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "user",
+                "credits",
+                "transactions"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "页码",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "20",
+                  "description": "每页数量",
+                  "disabled": true
+                },
+                {
+                  "key": "action",
+                  "value": "None",
+                  "description": "操作类型筛选",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "获取当前用户的积分交易记录\n\n支持分页和按操作类型筛选\n操作类型包括：\n- redemption: 兑换码兑换\n- survey_response: 问卷回答消耗\n- chat: 聊天消耗\n- admin_adjust: 管理员调整\n- 等等"
+          }
+        },
+        {
+          "name": "获取积分统计",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/credits/stats",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "user",
+                "credits",
+                "stats"
+              ],
+              "query": [
+                {
+                  "key": "days",
+                  "value": "30",
+                  "description": "统计天数",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "获取当前用户的积分统计信息\n\n包括：\n- 当前余额\n- 指定天数内的总消耗和总获得\n- 按操作类型分组的统计"
+          }
+        }
+      ]
+    },
+    {
+      "name": "管理后台",
+      "item": [
+        {
+          "name": "获取管理后台统计概览",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "dashboard"
+              ]
+            },
+            "description": "获取管理后台统计概览\n包括用户统计、邀请码池状态等"
+          }
+        },
+        {
+          "name": "获取账号列表",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/accounts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "accounts"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "页码",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "20",
+                  "description": "每页数量",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "None",
+                  "description": "搜索关键词",
+                  "disabled": true
+                },
+                {
+                  "key": "vip_filter",
+                  "value": "None",
+                  "description": "VIP等级筛选",
+                  "disabled": true
+                },
+                {
+                  "key": "sort_by",
+                  "value": "created_at",
+                  "description": "排序字段",
+                  "disabled": true
+                },
+                {
+                  "key": "sort_order",
+                  "value": "desc",
+                  "description": "排序方向",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "获取账号列表\n支持分页、搜索、VIP筛选"
+          }
+        },
+        {
+          "name": "获取账号详情",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/accounts/:account_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "accounts",
+                ":account_id"
+              ],
+              "variable": [
+                {
+                  "key": "account_id",
+                  "value": "{{example_account_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "获取指定账号的详细信息"
+          }
+        },
+        {
+          "name": "创建新账号",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/accounts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "accounts"
+              ]
+            },
+            "description": "管理员创建新账号",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"example_email\",\n  \"password\": \"example_password\",\n  \"name\": \"example_name\",\n  \"vip\": 0,\n  \"credits\": 1000,\n  \"can_create_invites\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "更新账号信息",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/accounts/:account_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "accounts",
+                ":account_id"
+              ],
+              "variable": [
+                {
+                  "key": "account_id",
+                  "value": "{{example_account_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "更新账号信息（VIP、积分、昵称等）",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"example_name\",\n  \"vip\": \"example_vip\",\n  \"credits\": \"example_credits\",\n  \"can_create_invites\": \"example_can_create_invites\",\n  \"email_checked\": \"example_email_checked\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "重置密码",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/accounts/:account_id/reset-password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "accounts",
+                ":account_id",
+                "reset-password"
+              ],
+              "variable": [
+                {
+                  "key": "account_id",
+                  "value": "{{example_account_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "重置用户密码",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"new_password\": \"example_new_password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "调整用户积分",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/accounts/:account_id/credits",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "accounts",
+                ":account_id",
+                "credits"
+              ],
+              "variable": [
+                {
+                  "key": "account_id",
+                  "value": "{{example_account_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "调整用户积分（增加或减少）",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 0,\n  \"action\": \"admin_adjust\",\n  \"note\": \"example_note\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "获取积分交易记录",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/credits/transactions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "credits",
+                "transactions"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "页码",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "20",
+                  "description": "每页数量",
+                  "disabled": true
+                },
+                {
+                  "key": "account_id",
+                  "value": "None",
+                  "description": "账号ID筛选",
+                  "disabled": true
+                },
+                {
+                  "key": "action_filter",
+                  "value": "None",
+                  "description": "操作类型筛选",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "获取积分交易记录"
+          }
+        },
+        {
+          "name": "获取邀请码列表",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/invitation-codes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "invitation-codes"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "页码",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "20",
+                  "description": "每页数量",
+                  "disabled": true
+                },
+                {
+                  "key": "creator_id",
+                  "value": "None",
+                  "description": "创建者ID筛选",
+                  "disabled": true
+                },
+                {
+                  "key": "is_active",
+                  "value": "None",
+                  "description": "是否激活筛选",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "获取邀请码列表"
+          }
+        },
+        {
+          "name": "创建邀请码",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/invitation-codes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "invitation-codes"
+              ]
+            },
+            "description": "管理员创建邀请码",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"max_uses\": 1,\n  \"expires_in_days\": 30,\n  \"note\": \"example_note\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "停用邀请码",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/invitation-codes/:code_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "invitation-codes",
+                ":code_id"
+              ],
+              "variable": [
+                {
+                  "key": "code_id",
+                  "value": "{{example_code_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "停用指定邀请码"
+          }
+        },
+        {
+          "name": "获取邀请码池状态",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/invitation-pool/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "invitation-pool",
+                "status"
+              ]
+            },
+            "description": "获取系统邀请码池的状态统计"
+          }
+        },
+        {
+          "name": "补充邀请码池",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/invitation-pool/refill",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "invitation-pool",
+                "refill"
+              ]
+            },
+            "description": "向系统邀请码池补充邀请码",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"count\": 100,\n  \"expires_in_hours\": 168\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "创建兑换码",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/redemption-codes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "redemption-codes"
+              ]
+            },
+            "description": "创建兑换码（管理员专用）\n\n- vip_version: VIP版本（1或2）\n- duration_months: VIP时长（月），支持小数\n- count: 创建数量（1-100）\n- expire_days: 兑换码有效期（天），不填则永久有效\n- credits: 赠送积分数量，不填则根据VIP版本默认（v1=5000, v2=10000）",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vip_version\": 0,\n  \"duration_months\": 0.0,\n  \"count\": 1,\n  \"expire_days\": \"example_expire_days\",\n  \"credits\": \"example_credits\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "获取兑换码列表",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/redemption-codes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "redemption-codes"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "页码",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "20",
+                  "description": "每页数量",
+                  "disabled": true
+                },
+                {
+                  "key": "is_used",
+                  "value": "None",
+                  "description": "是否已使用筛选",
+                  "disabled": true
+                },
+                {
+                  "key": "created_by",
+                  "value": "None",
+                  "description": "创建者筛选",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "获取兑换码列表（管理员专用）"
+          }
+        },
+        {
+          "name": "验证兑换码",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/redemption-codes/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "redemption-codes",
+                "validate"
+              ]
+            },
+            "description": "验证兑换码是否有效",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"example_code\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "兑换码兑换（为指定用户）",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/redemption-codes/redeem",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "redemption-codes",
+                "redeem"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "Ellipsis",
+                  "description": "要兑换的用户ID",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "管理员为指定用户兑换兑换码\n\n用于管理员手动为用户兑换VIP/积分",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"example_code\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Focus Group 焦点小组",
+      "item": [
+        {
+          "name": "Create Focus Group",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/create",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                "create"
+              ]
+            },
+            "description": "创建焦点小组\n\naccount_id 优先从 JWT token 中获取，如果请求体中也提供了则以请求体为准",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": \"example_account_id\",\n  \"title\": \"example_title\",\n  \"topic\": \"example_topic\",\n  \"background\": \"example_background\",\n  \"research_objectives\": [],\n  \"engine_config\": \"example_engine_config\",\n  \"auto_generate_questions\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Add Participants",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/participants",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "participants"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "批量添加参与者到焦点小组",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"audience_ids\": \"example_audience_ids\",\n  \"user_ids\": \"example_user_ids\",\n  \"ai_engine\": \"claude\",\n  \"engine_config\": \"example_engine_config\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Participant",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/participants/:user_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "participants",
+                ":user_id"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                },
+                {
+                  "key": "user_id",
+                  "value": "{{example_user_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "从焦点小组中删除参与者\n\n通过受众ID（user_id/audience_id）删除参与者记录，同时会删除该参与者在此焦点小组中的所有消息记录。"
+          }
+        },
+        {
+          "name": "Get Participants",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/participants/list",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "participants",
+                "list"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "获取焦点小组参与者列表（分页查询）",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"page_size\": 20,\n  \"participant_status\": \"example_participant_status\",\n  \"ai_engine\": \"example_ai_engine\",\n  \"include_message_stats\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Start Focus Group",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/start",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "start"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "启动焦点小组"
+          }
+        },
+        {
+          "name": "Get Next Decision",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/next-decision",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "next-decision"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "获取智能决策：下一步问谁什么问题（基于focus_group_id统计发言次数）"
+          }
+        },
+        {
+          "name": "Update Focus Group",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "更新焦点小组信息\n\n编辑规则：\n- preparing/questions_ready 阶段：所有字段可编辑\n- completed 阶段：只能编辑 title\n- 其他阶段（active, custom_chat 等）：不允许编辑",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"example_status\",\n  \"title\": \"example_title\",\n  \"topic\": \"example_topic\",\n  \"background\": \"example_background\",\n  \"research_objectives\": \"example_research_objectives\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Focus Group",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "删除焦点小组\n\n删除规则：\n- 只有在没有产生聊天记录之前才能删除\n- 删除时会同时删除焦点小组和关联的参与者记录\n- 如果已有聊天记录则不允许删除"
+          }
+        },
+        {
+          "name": "Send Host Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/host-message",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "host-message"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "发送主持人消息",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"host_prompt\": \"example_host_prompt\",\n  \"target_name\": \"example_target_name\",\n  \"used_followup\": false,\n  \"question_id\": \"example_question_id\",\n  \"followup_id\": \"example_followup_id\",\n  \"reason\": \"example_reason\",\n  \"images\": \"example_images\",\n  \"message_type\": \"text\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Generate Participant Response",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/participant-response",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "participant-response"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "生成参与者回答（AI生成）",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"participant_id\": 0,\n  \"host_message\": \"example_host_message\",\n  \"account_id\": \"example_account_id\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Batch Generate Participant Response",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/batch-participant-response",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "batch-participant-response"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "批量生成参与者回答（立即返回任务ID，后台异步执行）\n\n适用场景：\n- @ALL 提及所有参与者时\n- 需要同时生成多个参与者回复时\n\n工作流程：\n1. 接收请求后立即返回任务ID（防止前端超时）\n2. 后台异步执行批量生成（并发数：20）\n3. 前端通过轮询接口查询进度\n4. 如果同一个focus_group已有运行中的任务，直接返回现有任务ID（防重复）\n\nCredits扣点：\n- 每位参与者回复扣2点，N位参与者扣 N×2 点\n- 仅在创建新任务时扣点，重复请求返回已存在任务时不扣点\n\n使用方式：\n1. 调用此接口获取 task_id\n2. 使用 GET /{focus_group_id}/batch-task/{task_id} 轮询进度（建议间隔1-2秒）\n3. 当 status 为 completed 或 failed 时，任务结束，results 包含所有结果",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"participant_ids\": [],\n  \"host_message\": \"example_host_message\",\n  \"account_id\": \"example_account_id\",\n  \"engine\": \"example_engine\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Batch Task Progress",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/batch-task/:task_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "batch-task",
+                ":task_id"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                },
+                {
+                  "key": "task_id",
+                  "value": "{{example_task_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "查询批量任务进度\n\n轮询此接口获取任务执行进度。\n\n状态说明：\n- pending: 任务已创建，等待执行\n- processing: 正在执行\n- completed: 执行完成\n- failed: 执行失败\n\n建议轮询间隔：1-2秒"
+          }
+        },
+        {
+          "name": "Get Active Batch Task",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/active-batch-task",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "active-batch-task"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "获取指定焦点小组当前活跃的批量任务\n\n用于前端检查是否有正在运行的任务，避免重复发起请求。"
+          }
+        },
+        {
+          "name": "Get Messages",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/messages",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "messages"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "获取焦点小组消息列表（支持过滤和分页）",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"example_role\",\n  \"limit\": 50,\n  \"offset\": 0,\n  \"include_metadata\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Extract Insights",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/extract-insights",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "extract-insights"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "提取洞察（支持过滤和详细内容返回）",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recent_messages_count\": 10,\n  \"insight_type\": \"example_insight_type\",\n  \"confidence_threshold\": 0.7,\n  \"max_insights\": 5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Insights",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/insights",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "insights"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "获取洞察列表（支持过滤、分页和排序）",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"insight_type\": \"example_insight_type\",\n  \"validation_status\": \"example_validation_status\",\n  \"limit\": 50,\n  \"offset\": 0,\n  \"include_evidence\": true,\n  \"confidence_min\": \"example_confidence_min\",\n  \"min_confidence\": \"example_min_confidence\",\n  \"order_by\": \"created_at\",\n  \"order_direction\": \"desc\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Check Questions Ready",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/check-questions-ready",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "check-questions-ready"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "检查焦点小组的访谈框架是否构建完成\n\n用于前端判断是否可以开始焦点小组对话。\n- ready=True: 可以开始对话\n- ready=False: 还在生成问题，需要等待"
+          }
+        },
+        {
+          "name": "List Report Types",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/report-types/list",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                "report-types",
+                "list"
+              ]
+            },
+            "description": "获取所有可用的报告类型/提示词模板\n\n返回所有支持的报告类型及其描述信息"
+          }
+        },
+        {
+          "name": "Get Focus Group Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/summary",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "summary"
+              ],
+              "query": [
+                {
+                  "key": "regenerate",
+                  "value": "False",
+                  "description": "是否强制重新生成报告，默认false（优先返回已有报告）",
+                  "disabled": true
+                },
+                {
+                  "key": "report_type",
+                  "value": "startup",
+                  "description": "报告类型/提示词模板: startup(创业视角), marketing(营销战略), growth(增长策略), investment(投资分析), newproduct(新产品), vp(高管视角)",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "获取焦点小组摘要报告\n\n默认行为：\n- 如果数据库中已有完成的报告，直接返回缓存的报告\n- 如果没有报告或报告生成失败，则重新生成\n\n强制重新生成：\n- 设置 regenerate=true 可强制重新生成报告，覆盖已有报告\n\n报告类型：\n- startup: 创业视角，适合早期创业者寻找PMF机会\n- marketing: 营销战略，适合市场部门的品牌定位和营销策略\n- growth: 增长策略，适合增长团队的用户获取和激活\n- investment: 投资分析，适合投资人评估项目\n- newproduct: 新产品开发，适合产品团队的需求分析\n- vp: 高管视角，适合VP/C-level的战略决策"
+          }
+        },
+        {
+          "name": "Batch Generate System Prompts",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/batch-generate-prompts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "batch-generate-prompts"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "批量为焦点小组参与者生成system_prompt（用于性能优化）"
+          }
+        },
+        {
+          "name": "End Focus Group",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/:focus_group_id/end",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                ":focus_group_id",
+                "end"
+              ],
+              "variable": [
+                {
+                  "key": "focus_group_id",
+                  "value": "{{example_focus_group_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "结束焦点小组"
+          }
+        },
+        {
+          "name": "Get Focus Groups",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/focus-group/list",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "focus-group",
+                "list"
+              ],
+              "query": [
+                {
+                  "key": "account_id",
+                  "value": "Ellipsis",
+                  "description": "账户ID",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "None",
+                  "description": "状态过滤",
+                  "disabled": true
+                },
+                {
+                  "key": "title",
+                  "value": "None",
+                  "description": "模糊查询小组名称",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "页码",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "10",
+                  "description": "每页大小",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "获取焦点小组列表（含参与者数量）"
+          }
+        }
+      ]
+    },
+    {
+      "name": "audience-generate",
+      "item": [
+        {
+          "name": "Analyze Intent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/intent-analysis",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "intent-analysis"
+              ]
+            },
+            "description": "分析用户意图（包含产品特征识别）\n\n根据用户输入分析意图，包括：\n- 表面意图和深层意图分析\n- 心理动机和社会动机\n- 产品特征识别和结构化整理\n- 目标受众识别\n- 语言检测和生成建议\n\nArgs:\n    request: 包含用户输入的请求体\n\nReturns:\n    意图分析结果，包括完整的分析数据和产品特征信息",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_input\": \"example_user_input\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Generate Personas",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/personas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "personas"
+              ]
+            },
+            "description": "生成受众画像（需要先进行意图分析）\n\n基于用户输入生成详细的受众画像，包括：\n- 人口统计特征\n- 心理特征和行为模式\n- 消费习惯和品牌偏好\n- 主要需求和痛点\n- 使用场景和购买动机\n\nArgs:\n    request: 包含用户输入和配置的请求体\n\nReturns:\n    受众画像生成结果",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_input\": \"example_user_input\",\n  \"segment_count\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Generate Complete Flow",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/complete",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "complete"
+              ]
+            },
+            "description": "完整的受众画像生成流程\n\n执行完整的生成流程：用户输入 -> 意图分析 -> 受众画像生成\n\n包含完整的处理过程：\n1. 意图分析（包括产品特征识别）\n2. 受众画像生成\n3. 元数据和性能统计\n\nArgs:\n    request: 包含用户输入和配置的请求体\n\nReturns:\n    包含意图分析、受众画像和元数据的完整结果",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_input\": \"example_user_input\",\n  \"segment_count\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Generator Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "status"
+              ]
+            },
+            "description": "获取受众画像生成器状态\n\n返回生成器的当前状态，包括：\n- 初始化状态\n- DSPy提供商信息\n- 组件状态\n\nReturns:\n    生成器状态信息"
+          }
+        },
+        {
+          "name": "Create Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/task/create",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "task",
+                "create"
+              ]
+            },
+            "description": "Step 0: 创建任务\n\n创建受众生成任务记录，返回 task_id 供后续步骤使用。\n此步骤仅创建任务记录，不执行任何生成逻辑。\n\n**进度**: 0% → 10%\n\nArgs:\n    request: 包含用户输入和配置的请求体\n\nReturns:\n    任务ID和批次ID",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_description\": \"example_product_description\",\n  \"market_context\": \"\",\n  \"user_count\": \"example_user_count\",\n  \"user_input\": \"example_user_input\",\n  \"account_id\": 0,\n  \"segment_count\": 2,\n  \"audience_count_per_segment\": \"example_audience_count_per_segment\",\n  \"target_continent\": \"example_target_continent\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Step Intent Without Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/task/intent",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "task",
+                "intent"
+              ]
+            },
+            "description": "Step 1: 执行意图识别（无需 task_id）\n\n对用户输入进行意图分析，识别深层需求、产品特征、目标受众等信息。\n结果保存到 intent_analysis 表，但不关联任务。\n\n**适用场景**: 独立调用意图识别，不需要先创建任务。\n\nArgs:\n    request: 包含用户输入和可选 account_id 的请求体\n\nReturns:\n    意图分析结果",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_input\": \"example_user_input\",\n  \"account_id\": 0,\n  \"force_refresh\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Step Personas Without Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/task/personas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "task",
+                "personas"
+              ]
+            },
+            "description": "Step 2: 执行画像生成（无需 task_id）\n\n基于意图分析结果生成受众画像（segments）。\n不保存到数据库，直接返回生成结果。\n\n**适用场景**: 独立调用画像生成，不需要先创建任务。\n\nArgs:\n    request: 包含意图分析结果的请求体\n        - intent_analysis: 必填，意图分析结果（来自 Step 1）\n        - segment_count: 可选，生成的画像数量（默认3）\n        - account_id: 可选，账户ID\n\nReturns:\n    画像数据列表",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"intent_analysis\": \"example_intent_analysis\",\n  \"segment_count\": 3,\n  \"account_id\": \"example_account_id\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Step Audiences Without Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/task/audiences",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "task",
+                "audiences"
+              ]
+            },
+            "description": "Step 3: 执行受众+人格生成（无需 task_id）\n\n基于画像为每个 segment 生成具体的受众和人格数据。\n不保存到数据库，直接返回生成结果。\n\n**适用场景**: 独立调用受众生成，不需要先创建任务。\n\nArgs:\n    request: 包含画像列表和意图分析的请求体\n        - personas: 必填，画像列表（来自 Step 2）\n        - intent_analysis: 必填，意图分析结果（来自 Step 1）\n        - audience_count_per_segment: 可选，每个画像下的受众数量（默认5）\n        - account_id: 可选，账户ID\n\nReturns:\n    所有生成的受众数据",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"personas\": [],\n  \"intent_analysis\": \"example_intent_analysis\",\n  \"audience_count_per_segment\": 5,\n  \"account_id\": \"example_account_id\",\n  \"use_parallel\": false,\n  \"num_threads\": 5,\n  \"check_duplicate_names\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Step Intent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/task/:task_id/intent",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "task",
+                ":task_id",
+                "intent"
+              ],
+              "variable": [
+                {
+                  "key": "task_id",
+                  "value": "{{example_task_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "Step 1: 执行意图识别（关联 task_id）\n\n对用户输入进行意图分析，识别深层需求、产品特征、目标受众等信息。\n结果保存到 intent_analysis 表，并更新任务进度。\n\n**进度**: 10% → 20%\n\nArgs:\n    task_id: 任务ID（来自 Step 0）\n    request: 包含用户输入的请求体\n\nReturns:\n    意图分析结果",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_input\": \"example_user_input\",\n  \"account_id\": 0,\n  \"force_refresh\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Step Personas",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/task/:task_id/personas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "task",
+                ":task_id",
+                "personas"
+              ],
+              "variable": [
+                {
+                  "key": "task_id",
+                  "value": "{{example_task_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "Step 2: 执行画像生成\n\n基于意图分析结果生成受众画像（segments）。\n结果保存到 audience_segment 表。\n\n**进度**: 20% → 40%\n\nArgs:\n    task_id: 任务ID\n    request: 包含意图分析结果的请求体\n\nReturns:\n    画像数据列表",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"intent_analysis\": \"example_intent_analysis\",\n  \"segment_count\": \"example_segment_count\",\n  \"account_id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Step Audiences",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/task/:task_id/audiences",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "task",
+                ":task_id",
+                "audiences"
+              ],
+              "variable": [
+                {
+                  "key": "task_id",
+                  "value": "{{example_task_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "Step 3: 执行受众+人格生成\n\n基于画像为每个 segment 生成具体的受众和人格数据。\n结果保存到 audience 和 personality 表。\n\n**进度**: 40% → 100%\n\nArgs:\n    task_id: 任务ID\n    request: 包含画像列表和意图分析的请求体\n\nReturns:\n    所有受众ID列表",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"personas\": \"example_personas\",\n  \"intent_analysis\": \"example_intent_analysis\",\n  \"audience_count_per_segment\": \"example_audience_count_per_segment\",\n  \"account_id\": 0,\n  \"generate_avatars\": true,\n  \"use_parallel\": false,\n  \"num_threads\": 5,\n  \"check_duplicate_names\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Run All Async",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/task/run-all",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "task",
+                "run-all"
+              ]
+            },
+            "description": "异步执行完整的受众生成流程\n\n创建任务后，通过后台进程执行完整流程：\n1. 意图识别\n2. 画像生成\n3. 受众+人格生成\n4. 异步头像生成（可选）\n\n任务在后台执行，可通过 GET /task/{task_id} 查询进度。\n\nArgs:\n    request: 完整流程配置\n\nReturns:\n    任务ID和进程信息",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_description\": \"example_product_description\",\n  \"market_context\": \"\",\n  \"user_count\": \"example_user_count\",\n  \"user_input\": \"example_user_input\",\n  \"account_id\": 0,\n  \"segment_count\": 2,\n  \"audience_count_per_segment\": \"example_audience_count_per_segment\",\n  \"target_continent\": \"example_target_continent\",\n  \"generate_avatars\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Task Progress",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/task/:task_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "task",
+                ":task_id"
+              ],
+              "variable": [
+                {
+                  "key": "task_id",
+                  "value": "{{example_task_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "查询任务进度\n\n获取任务的当前执行状态和进度信息。\n\nArgs:\n    task_id: 任务ID\n\nReturns:\n    任务进度信息"
+          }
+        },
+        {
+          "name": "Analyze Task For Resume",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/task/:task_id/analyze-resume",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "task",
+                ":task_id",
+                "analyze-resume"
+              ],
+              "variable": [
+                {
+                  "key": "task_id",
+                  "value": "{{example_task_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "分析任务是否可以恢复\n\n检查任务当前状态，判断是否可以恢复以及从哪个阶段恢复。\n\nArgs:\n    task_id: 任务ID\n\nReturns:\n    恢复分析结果"
+          }
+        },
+        {
+          "name": "Resume Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/task/:task_id/resume",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "task",
+                ":task_id",
+                "resume"
+              ],
+              "variable": [
+                {
+                  "key": "task_id",
+                  "value": "{{example_task_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "恢复中断的任务（异步执行）\n\n自动检测任务进度并从断点继续执行：\n- 如果在意图识别阶段中断，重新执行意图识别\n- 如果在画像生成阶段中断，从已有意图继续生成画像\n- 如果在受众生成阶段中断，跳过已完成的 segment，继续生成剩余受众\n\n任务在后台执行，可通过 GET /task/{task_id} 查询进度。\n\nArgs:\n    task_id: 任务ID\n    request: 恢复配置\n\nReturns:\n    恢复任务结果",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"generate_avatars\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Rename Segment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/segment/rename",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "segment",
+                "rename"
+              ]
+            },
+            "description": "为单个 Segment 重新生成网感名称\n\n可以通过两种方式指定 segment：\n1. 传入 segment_id：从数据库查询 segment 信息\n2. 传入 segment_info：直接传入 segment 的完整 JSON 数据\n\n生成的新名称风格：\n- 中英混搭：如 \"Punk养生族\", \"Digital游民族\"\n- 自嘲调侃：如 \"吃土Socialite\", \"996ICU幸存者\"\n- 网络热词：如 \"FOMO社恐人\", \"断舍离伪信徒\"\n\n**默认异步执行**：不阻塞请求，后台完成重命名。设置 async_mode=false 可同步执行。\n\nArgs:\n    request: 重命名请求\n\nReturns:\n    重命名结果",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segment_id\": \"example_segment_id\",\n  \"segment_info\": \"example_segment_info\",\n  \"generate_language\": \"Chinese\",\n  \"update_db\": true,\n  \"async_mode\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Batch Rename Segments",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/segment/batch-rename",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "segment",
+                "batch-rename"
+              ]
+            },
+            "description": "批量为任务下所有 Segments 重新生成网感名称\n\n根据 task_id 查询该任务下所有的 segments，并逐个重命名。\n\n生成的新名称风格：\n- 中英混搭：如 \"Punk养生族\", \"Digital游民族\"\n- 自嘲调侃：如 \"吃土Socialite\", \"996ICU幸存者\"\n- 网络热词：如 \"FOMO社恐人\", \"断舍离伪信徒\"\n\n**默认异步执行**：不阻塞请求，后台完成重命名。设置 async_mode=false 可同步执行。\n\nArgs:\n    request: 批量重命名请求\n\nReturns:\n    批量重命名结果",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": 0,\n  \"generate_language\": \"Chinese\",\n  \"update_db\": true,\n  \"async_mode\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Generate Audience Insight",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/audience/insight",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "audience",
+                "insight"
+              ]
+            },
+            "description": "生成受众洞察总结\n\n根据多个任务ID汇总受众数据，生成专业的市场调研风格洞察报告。\n\n输出风格示例:\n```\n本次AI人群推理共生成XXX位目标消费者画像，其中：\n- 性别分布：各自占比XX%\n- 年龄层以XX岁为主（占比XX%），其次为XX岁（占比XX%）\n- 主要分布在一线及新一线城市（占比XX%）\n- 收入水平（占比XX%）\n\n核心洞察：\n1. 该人群普遍关注XXX，对XXX有强烈需求\n2. 痛点集中在XXX、XXX等方面\n3. 决策时重视XXX因素\n```\n\nArgs:\n    request: 包含 task_ids 列表的请求\n\nReturns:\n    受众洞察响应，包含 summary、key_findings、demographic_highlights",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_ids\": [],\n  \"task_context\": \"\",\n  \"generate_language\": \"Chinese\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Check Personality Integrity",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/audience/personality-integrity",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "audience",
+                "personality-integrity"
+              ]
+            },
+            "description": "检查受众的 Personality 数据完整性\n\n检查指定账号（或全部）的受众记录是否都有对应的 personality 数据。\n\n注意：此接口已重构，将数据库操作封装到 Repository 层，\n遵循 Router → Service → Repository 的分层架构。\n\n参数：\n- account_id: 账号ID（可选，不传则检查所有账号）\n- include_details: 是否返回缺失记录的详细信息（默认 False）\n- limit: 返回缺失记录的最大数量（默认 100）\n\n返回：\n- total_audiences: 总受众数\n- with_personality: 有 personality 的受众数\n- missing_personality: 缺少 personality 的受众数\n- integrity_percentage: 完整性百分比\n- missing_records: 缺失记录详情（仅当 include_details=True）"
+          }
+        },
+        {
+          "name": "Check Personality Integrity All Accounts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/audience/personality-integrity/by-account",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "audience",
+                "personality-integrity",
+                "by-account"
+              ]
+            },
+            "description": "按账号统计 Personality 数据完整性\n\n返回所有账号的 personality 完整性统计，按缺失数量降序排列。\n\n注意：此接口已重构，将数据库操作封装到 Repository 层，\n遵循 Router → Service → Repository 的分层架构。"
+          }
+        },
+        {
+          "name": "Extract Interview Transcript",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/interview/extract",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "interview",
+                "extract"
+              ]
+            },
+            "description": "从深访笔录提取结构化persona数据\n\n从深度访谈笔录中提取以下结构化数据：\n- audience_segment: 受众细分画像\n- audience: 个人档案\n- personality: 人格特征\n- category_cognition: 品类认知\n- decision_journey: 决策旅程\n- speech_patterns: 语言模式\n- interview_quotes: 原话引用\n\nArgs:\n    request: 包含深访笔录和产品信息的请求体\n\nReturns:\n    提取的结构化persona数据",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"interview_transcript\": \"example_interview_transcript\",\n  \"product_info\": \"example_product_info\",\n  \"interview_metadata\": \"example_interview_metadata\",\n  \"file_url\": \"example_file_url\",\n  \"account_id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Interview Extraction",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/interview/extraction/:extraction_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "interview",
+                "extraction",
+                ":extraction_id"
+              ],
+              "variable": [
+                {
+                  "key": "extraction_id",
+                  "value": "{{example_extraction_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "获取深访笔录提取结果\n\nArgs:\n    extraction_id: 提取记录ID\n    include_full: 是否包含完整笔录原文（默认False，返回截断版本）\n\nReturns:\n    提取记录数据"
+          }
+        },
+        {
+          "name": "List Interview Extractions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/interview/extractions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "interview",
+                "extractions"
+              ]
+            },
+            "description": "获取账号下的所有深访笔录提取记录\n\nArgs:\n    account_id: 账号ID\n    limit: 限制数量（默认50）\n    offset: 偏移量（默认0）\n\nReturns:\n    提取记录列表"
+          }
+        },
+        {
+          "name": "Delete Interview Extraction",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/interview/extraction/:extraction_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "interview",
+                "extraction",
+                ":extraction_id"
+              ],
+              "variable": [
+                {
+                  "key": "extraction_id",
+                  "value": "{{example_extraction_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "删除深访笔录提取记录\n\nArgs:\n    extraction_id: 提取记录ID\n    account_id: 账号ID（用于权限校验）\n    delete_related: 是否删除关联数据（默认False）。如果为True，会同时删除：\n        - audience_task（通过 input_content.extraction_id 关联）\n        - audience_segment（通过 task_id 关联）\n        - audience（通过 segment_id 关联）\n        - personality（通过 user_id 关联）\n        - audience_prompt（通过 audience_id 关联）\n\nReturns:\n    删除结果，如果 delete_related=True，会包含 deleted_counts 统计"
+          }
+        },
+        {
+          "name": "Extraction To Audience",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/interview/extraction-to-audience",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "interview",
+                "extraction-to-audience"
+              ]
+            },
+            "description": "将深访提取数据转换为受众记录（方案1实现）\n\n支持两种调用方式：\n1. 传入 extraction_id：从数据库获取已有的提取数据\n2. 传入 extraction_data：直接使用提供的数据（会先保存到 interview_extraction 表）\n\n执行流程：\n1. 创建 audience_task 记录（type=interview_extraction）\n2. 创建 audience_segment 记录\n3. 创建 audience 和 personality 记录\n\n缺失字段处理：\n- 必填字段缺失时使用默认值并输出 WARNING\n- 返回 missing_fields 字段列出所有缺失的字段\n\nArgs:\n    request: 包含 extraction_id 或 extraction_data 的请求体\n\nReturns:\n    创建的各记录ID和缺失字段警告",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"extraction_id\": \"example_extraction_id\",\n  \"extraction_data\": \"example_extraction_data\",\n  \"account_id\": 0,\n  \"product_info\": \"example_product_info\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "基于 segment_ids 批量生成受众",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/segments/audiences",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "segments",
+                "audiences"
+              ]
+            },
+            "description": "基于 segment_ids 批量生成受众（支持选择性生成）\n\n该接口允许用户为指定的 segments 生成受众，而不是为整个 task 的所有 segments 生成。\n适用于分步骤模式下用户只想为部分 segments 生成受众的场景。\n\n**约束条件**:\n- 所有 segment_ids 必须来自同一个 task\n- 如果 segment_ids 来自不同的 task，会返回错误提示\n\n**功能特点**:\n- 使用并行生成方法提高效率\n- 自动获取关联 task 的 intent_analysis\n- 更新 task 的状态和数量字段（叠加新生成的数量）\n- 返回完整的 audience + personality 数据\n\n**进度更新**:\n- 开始生成时: status=processing, current_stage=generating_audiences\n- 生成完成时: status=completed, current_stage=audiences_done\n- 数量字段叠加: processed_users, personality_processed 等\n\nArgs:\n    request: 包含 segment_ids、audience_count、account_id 等参数\n\nReturns:\n    生成结果，包含每个 segment 的完整受众数据",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segment_ids\": [],\n  \"audience_count\": 5,\n  \"account_id\": 0,\n  \"use_parallel\": true,\n  \"num_threads\": 5,\n  \"generate_avatars\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "跨任务批量生成受众（支持不同 task 的 segments）",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/segments/audiences/cross-task",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "segments",
+                "audiences",
+                "cross-task"
+              ]
+            },
+            "description": "跨任务批量生成受众（支持不同 task 的 segments）\n\n与 `/segments/audiences` 不同，此接口允许 segments 来自不同的 task，\n每个 segment 使用其对应 task 的 intent_analysis。\n\n**主要特点**:\n- 支持跨任务: persona_ids 可以来自不同的 task\n- 每个 segment 使用各自 task 的 intent_analysis\n- 可选是否写库: save_to_db=false 时只返回生成结果，不保存到数据库\n- 如果 persona_ids 中有不存在的 ID，直接报错返回\n\n**audience_count_per_segment 逻辑**:\n- 如果传入该参数，所有 segments 使用统一的数量\n- 如果不传，从各自 task 关联的 intent_analysis 表的 intent 字段中获取 audience_count\n\n**save_to_db 逻辑**:\n- save_to_db=false（默认）: 只生成不保存，audience_ids 为空\n- save_to_db=true: 生成并保存，audience.task_id = segment.task_id\n\nArgs:\n    request: 包含 persona_ids、生成配置等参数\n\nReturns:\n    生成结果，包含每个 segment 的完整受众数据",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"persona_ids\": [],\n  \"audience_count_per_segment\": \"example_audience_count_per_segment\",\n  \"use_parallel\": false,\n  \"num_threads\": 5,\n  \"check_duplicate_names\": false,\n  \"account_id\": \"example_account_id\",\n  \"save_to_db\": false,\n  \"generate_avatars\": false,\n  \"max_tokens\": 65000,\n  \"temperature\": 0.85,\n  \"model\": \"example_model\",\n  \"use_unified_parallel\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Batch Generate System Prompt",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/batch-generate-prompt",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "batch-generate-prompt"
+              ]
+            },
+            "description": "批量为受众生成 system_prompt\n\n支持四种方式指定数据源：\n1. task_id: 查询该任务下的所有受众\n2. segment_ids: 查询这些细分人群下的所有受众\n3. audience_ids: 直接指定受众ID列表\n4. interview_extraction_ids: 直接从 interview_extraction 表的 full_extraction 获取数据生成（不保存，返回完整prompt）\n\n前三种可以组合使用，会取并集。\n第四种 interview_extraction_ids 独立处理，结果在 extraction_results 字段返回。\n\n使用 dspy.parallel 并行生成，提高效率。\n\nArgs:\n    request: 请求体\n\nReturns:\n    批量生成结果",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": 0,\n  \"task_id\": \"example_task_id\",\n  \"segment_ids\": \"example_segment_ids\",\n  \"audience_ids\": \"example_audience_ids\",\n  \"interview_extraction_ids\": \"example_interview_extraction_ids\",\n  \"regenerate\": false,\n  \"num_threads\": 5,\n  \"output_format\": \"text\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Batch Pregenerate System Prompt",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience-generate/batch-pregenerate-prompt",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience-generate",
+                "batch-pregenerate-prompt"
+              ]
+            },
+            "description": "批量为普通受众预生成 system_prompt（简化版，不包含深访抽取）\n\n支持三种方式指定受众数据源：\n1. task_id: 查询该任务下的所有受众\n2. segment_ids: 查询这些细分人群下的所有受众\n3. audience_ids: 直接指定受众ID列表\n\n三种可以组合使用，会取并集。\n\n使用 CombinedSystemPromptSignature 单次 LLM 调用完成人物丰富 + prompt 生成。\n使用 dspy.Parallel 并行生成，提高效率。\n\nArgs:\n    request: 请求体\n\nReturns:\n    批量生成结果",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": 0,\n  \"task_id\": \"example_task_id\",\n  \"segment_ids\": \"example_segment_ids\",\n  \"audience_ids\": \"example_audience_ids\",\n  \"regenerate\": false,\n  \"num_threads\": 5,\n  \"output_format\": \"json\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "audience-regenerate",
+      "item": [
+        {
+          "name": "Regenerate Audience Segments",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience/regenerate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience",
+                "regenerate"
+              ]
+            },
+            "description": "重新生成受众画像的traits_tendency和portrait字段\n\n- **audience_segment_ids**: 需要重新生成的受众画像ID列表 (最多50个)\n- **regenerate_traits**: 是否重新生成traits_tendency字段 (默认true)\n- **regenerate_portrait**: 是否重新生成portrait字段 (默认true)\n\n返回生成结果和统计信息",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"audience_segment_ids\": [],\n  \"regenerate_traits\": true,\n  \"regenerate_portrait\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Audience Data",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience/delete",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience",
+                "delete"
+              ]
+            },
+            "description": "删除受众数据\n\n根据task_id和account_id删除账号下对应任务生成的所有audience_segments和audience数据。\n支持以下参数组合：\n- **account_id**: 必需，账户ID，用于验证权限\n- **task_id**: 可选，任务ID，删除该任务下的所有受众数据\n- **audience_segment_ids**: 可选，受众段ID列表，删除指定的受众段及其下属受众\n- **audience_id**: 可选，受众ID，删除指定的受众记录\n\n安全限制：\n- 如果受众段已用于问卷投放，将被阻止删除\n- 如果受众存在聊天记录，将被阻止删除\n- 只能删除属于指定账户的数据\n\n返回删除结果和被阻止删除的项目详情",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": 0,\n  \"task_id\": \"example_task_id\",\n  \"audience_segment_ids\": \"example_audience_segment_ids\",\n  \"audience_id\": \"example_audience_id\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Regenerate Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience",
+                "status"
+              ]
+            },
+            "description": "获取重新生成服务的状态"
+          }
+        },
+        {
+          "name": "Regenerate Personality",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audience/regenerate-personality",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audience",
+                "regenerate-personality"
+              ]
+            },
+            "description": "根据已有受众信息重新生成 Personality 数据\n\n使用 DSPy 推理引擎根据受众的基本信息（姓名、年龄、性别、职业等）\n重新生成完整的人格特质数据。\n\n**参数说明：**\n- **audience_ids**: 需要重新生成personality的受众ID列表（最多100个）\n- **account_id**: 账户ID，用于权限验证（只能操作属于该账户的受众）\n- **overwrite_existing**: 是否覆盖已存在的personality记录（默认True）\n\n**权限控制：**\n- 只能为属于指定 account_id 的受众重新生成 personality\n- 不属于该账户的受众会被跳过并记录在 unauthorized_count 中\n\n**返回结果：**\n- success: 全部成功\n- partial_success: 部分成功\n- failed: 全部失败",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"audience_ids\": [],\n  \"account_id\": 0,\n  \"overwrite_existing\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "头像管理",
+      "item": [
+        {
+          "name": "Regenerate Default Avatars",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/avatars/regenerate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "avatars",
+                "regenerate"
+              ]
+            },
+            "description": "批量重新生成默认头像\n\n此接口会查找数据库中使用默认头像的记录，并重新调用头像生成API。\n支持干运行模式预览，以及后台异步处理。\n\n## 功能特性\n- 🔍 **智能查找**: 自动识别使用默认头像的记录\n- 📊 **预览模式**: 支持干运行查看影响范围\n- ⚡ **异步处理**: 后台处理，不阻塞请求\n- 🎛️ **参数调优**: 支持批次大小、延迟、重试次数等参数\n- 📝 **任务跟踪**: 生成唯一任务ID，支持状态查询\n- 🔒 **权限控制**: 支持按账号过滤处理范围\n\n## 使用流程\n1. 先使用 `dry_run=true` 预览要处理的记录\n2. 确认无误后设置 `dry_run=false` 实际执行\n3. 通过返回的 `task_id` 查询任务状态",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": \"example_account_id\",\n  \"task_id\": \"example_task_id\",\n  \"batch_size\": 10,\n  \"delay\": 2.0,\n  \"max_retries\": 3,\n  \"dry_run\": false,\n  \"force_regenerate\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Avatar Regeneration Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/avatars/regenerate/:task_id/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "avatars",
+                "regenerate",
+                ":task_id",
+                "status"
+              ],
+              "variable": [
+                {
+                  "key": "task_id",
+                  "value": "{{example_task_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "查询头像重新生成任务状态"
+          }
+        },
+        {
+          "name": "List Avatar Regeneration Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/avatars/regenerate/tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "avatars",
+                "regenerate",
+                "tasks"
+              ]
+            },
+            "description": "列出所有头像重新生成任务\n\n返回最近的头像重新生成任务列表，包括任务状态和基本信息。"
+          }
+        },
+        {
+          "name": "Avatar Health Check",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/avatars/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "avatars",
+                "health"
+              ]
+            },
+            "description": "头像服务健康检查"
+          }
+        },
+        {
+          "name": "Create Batch Avatar Generation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/avatars/batch-generate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "avatars",
+                "batch-generate"
+              ]
+            },
+            "description": "创建批量异步头像生成任务\n\n支持两种模式：\n1. 按任务ID：为指定任务下的所有受众生成头像\n2. 按受众ID列表：为指定的受众列表生成头像",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"example_task_id\",\n  \"audience_ids\": \"example_audience_ids\",\n  \"task_name\": \"example_task_name\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Batch Avatar Progress",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/avatars/batch-progress/:batch_task_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "avatars",
+                "batch-progress",
+                ":batch_task_id"
+              ],
+              "variable": [
+                {
+                  "key": "batch_task_id",
+                  "value": "{{example_batch_task_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "查询批量头像生成任务进度 - 基于subprocess日志解析"
+          }
+        },
+        {
+          "name": "List Batch Avatar Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/avatars/batch-tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "avatars",
+                "batch-tasks"
+              ]
+            },
+            "description": "列出批量头像生成任务 - 基于日志目录扫描"
+          }
+        },
+        {
+          "name": "Cancel Batch Avatar Task",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/avatars/batch-tasks/:batch_task_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "avatars",
+                "batch-tasks",
+                ":batch_task_id"
+              ],
+              "variable": [
+                {
+                  "key": "batch_task_id",
+                  "value": "{{example_batch_task_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "取消批量头像生成任务 - 基于subprocess进程终止"
+          }
+        },
+        {
+          "name": "Generate Openrouter Avatar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/avatars/openrouter-generate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "avatars",
+                "openrouter-generate"
+              ]
+            },
+            "description": "使用OpenRouter生成头像并上传到R2\n\n这个接口使用OpenRouter的Gemini 2.5 Flash Image模型生成头像，\n生成后可以选择上传到CloudFlare R2存储的avatar目录下。",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"gender\": \"example_gender\",\n  \"age\": \"example_age\",\n  \"position\": \"example_position\",\n  \"location\": \"example_location\",\n  \"industry\": \"example_industry\",\n  \"upload_to_r2\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Batch Generate Openrouter Avatars",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/avatars/openrouter-batch-generate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "avatars",
+                "openrouter-batch-generate"
+              ]
+            },
+            "description": "批量使用OpenRouter生成头像并上传到R2\n\n支持批量生成多个受众的头像，会控制并发数量避免API过载。",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"audiences\": [],\n  \"upload_to_r2\": true,\n  \"max_concurrent\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Scan Chinese Avatars",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/avatars/scan-chinese-avatars",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "avatars",
+                "scan-chinese-avatars"
+              ]
+            },
+            "description": "扫描数据库中包含中文字符的头像URL\n\n此接口用于分析头像URL中的中文字符问题，不执行任何修复操作。\n\n## 功能特性\n- 🔍 **全面扫描**: 检查所有受众的头像URL\n- 📊 **详细统计**: 按任务分组统计受影响记录\n- 🎯 **问题识别**: 识别包含中文字符的URL\n- 📝 **报告生成**: 生成详细的分析报告"
+          }
+        },
+        {
+          "name": "Fix Chinese Avatars",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/avatars/fix-chinese-avatars",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "avatars",
+                "fix-chinese-avatars"
+              ]
+            },
+            "description": "修复包含中文字符的头像URL\n\n此接口用于修复数据库中包含中文字符的头像URL，将中文转换为拼音形式。\n\n## 功能特性\n- 🔍 **智能识别**: 自动识别包含中文字符的头像URL\n- 🎯 **精准修复**: 重新生成URL安全的头像文件名\n- ⚡ **后台处理**: 异步处理，不阻塞请求\n- 📊 **进度跟踪**: 详细的处理进度和统计信息\n- 🎛️ **参数控制**: 支持批次大小、延迟等参数调优\n- 📝 **预览模式**: 支持干运行查看影响范围\n\n## 使用流程\n1. 先使用 `/scan-chinese-avatars` 查看受影响的记录\n2. 使用 `dry_run=true` 预览要修复的记录\n3. 确认无误后设置 `dry_run=false` 实际执行\n4. 通过返回的 `task_id` 查询任务状态\n\n## 修复原理\n- 使用 `python-slugify` 将中文转换为拼音\n- 例：`avatar_男性_42_心血管科主任医师_xxx.jpg` → `avatar_nan-xing_42_xin-xie-guan-ke-zhu-ren-yi-shi_xxx.jpg`",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": \"example_task_id\",\n  \"account_id\": \"example_account_id\",\n  \"batch_size\": 50,\n  \"delay_per_request\": 3.0,\n  \"dry_run\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Chinese Avatar Fix Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/avatars/fix-chinese-avatars/:task_id/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "avatars",
+                "fix-chinese-avatars",
+                ":task_id",
+                "status"
+              ],
+              "variable": [
+                {
+                  "key": "task_id",
+                  "value": "{{example_task_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "查询中文头像修复任务状态"
+          }
+        },
+        {
+          "name": "Fix Unknown Gender Avatars Endpoint",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/avatars/fix-unknown-gender-avatars",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "avatars",
+                "fix-unknown-gender-avatars"
+              ]
+            },
+            "description": "修复性别为Unknown的头像URL（路由接口）",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Unknown Gender Avatar Fix Status Endpoint",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/avatars/fix-unknown-gender-avatars/:task_id/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "avatars",
+                "fix-unknown-gender-avatars",
+                ":task_id",
+                "status"
+              ],
+              "variable": [
+                {
+                  "key": "task_id",
+                  "value": "{{example_task_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "查询Unknown性别头像修复任务状态（路由接口）"
+          }
+        }
+      ]
+    },
+    {
+      "name": "智能内容生成",
+      "item": [
+        {
+          "name": "Generate Article By Survey Id",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/survey/:survey_id/generate-article",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "survey",
+                ":survey_id",
+                "generate-article"
+              ],
+              "variable": [
+                {
+                  "key": "survey_id",
+                  "value": "{{example_survey_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "基于问卷统计数据生成智能内容\n\n支持生成多种类型的内容：\n- article: Medium风格的深度文章（800-1200字）\n- twitter_post: Twitter/X.com推文串（3-5条推文）\n- comment: 互动评论内容（多种类型）\n\n会自动记录生成历史，支持后续查询和统计",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"batch_id\": \"example_batch_id\",\n  \"account_id\": 0,\n  \"content_type\": \"article\",\n  \"product_name\": \"example_product_name\",\n  \"key_insights\": \"example_key_insights\",\n  \"context\": \"example_context\",\n  \"force_regenerate\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Generation History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/content-generation/history/:account_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "content-generation",
+                "history",
+                ":account_id"
+              ],
+              "variable": [
+                {
+                  "key": "account_id",
+                  "value": "{{example_account_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "获取账户的内容生成历史记录\n\n参数：\n- account_id: 账户ID\n- page: 页码（从1开始）\n- page_size: 每页记录数（默认20）\n- content_type: 可选，筛选内容类型"
+          }
+        },
+        {
+          "name": "Get Generation Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/content-generation/statistics/:account_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "content-generation",
+                "statistics",
+                ":account_id"
+              ],
+              "variable": [
+                {
+                  "key": "account_id",
+                  "value": "{{example_account_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "获取账户的内容生成统计信息\n\n包括：\n- 总生成数量\n- 按内容类型分组的统计\n- 最近7天的生成数量"
+          }
+        },
+        {
+          "name": "Update Article Content",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/content-generation/update",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "content-generation",
+                "update"
+              ]
+            },
+            "description": "更新已生成的文章内容\n\n允许用户编辑AI生成的文章内容并保存更新。支持多种参数组合来定位和验证记录。\n\n参数：\n- record_id: 文章记录ID（必需）\n- content: 更新后的文章内容（必需）\n- title: 更新后的标题（可选）\n- account_id: 账户ID，用于权限验证（可选但建议提供）\n- batch_id: 批次ID，用于精确定位记录（可选）\n- survey_id: 问卷ID，用于精确定位记录（可选）\n\n建议：虽然 account_id/batch_id/survey_id 是可选的，但提供这些参数可以增强安全性和记录定位的准确性",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"record_id\": 0,\n  \"content\": \"example_content\",\n  \"title\": \"example_title\",\n  \"account_id\": \"example_account_id\",\n  \"batch_id\": \"example_batch_id\",\n  \"survey_id\": \"example_survey_id\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Generate Reddit Comment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/generate-reddit-comment",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "generate-reddit-comment"
+              ]
+            },
+            "description": "基于Reddit帖子和评论生成智能评论\n\n该接口专门为Chrome扩展设计，用于在Reddit页面上生成高质量、相关的评论。\n\n特点：\n- 分析帖子内容和现有评论的上下文\n- 生成与讨论相关且有价值的评论\n- 支持不同的语调和风格\n- 自动适配评论长度\n\n参数：\n- platform: 平台类型（默认为reddit）\n- url: Reddit帖子的完整URL\n- post: 帖子信息（标题、内容、作者、subreddit）\n- comments: 现有评论列表（用于上下文理解）\n- stats: 统计信息（如总评论数）\n- account_id: 可选，用于记录生成历史\n- product_name: 可选，用于个性化评论\n- tone: 评论语调（professional/casual/friendly/expert）\n- max_length: 评论最大字数（默认200）\n\n返回：\n- success: 是否成功\n- comment: 生成的评论内容\n- message: 错误消息（如果失败）\n- generation_time_ms: 生成耗时\n- record_id: 数据库记录ID（如果保存）",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"platform\": \"reddit\",\n  \"url\": \"example_url\",\n  \"post\": \"example_post\",\n  \"comments\": [],\n  \"stats\": \"example_stats\",\n  \"account_id\": \"example_account_id\",\n  \"product_name\": \"example_product_name\",\n  \"tone\": \"professional\",\n  \"max_length\": 200\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "访谈展示",
+      "item": [
+        {
+          "name": "Record Shown Segments",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/interview/shown-segments/record",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "interview",
+                "shown-segments",
+                "record"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": 0,\n  \"segment_ids\": [],\n  \"vector_search_log_id\": \"example_vector_search_log_id\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Mark Segment Clicked",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/interview/shown-segments/click",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "interview",
+                "shown-segments",
+                "click"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": 0,\n  \"segment_id\": 0,\n  \"vector_search_log_id\": \"example_vector_search_log_id\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "List Shown Segments History",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/interview/shown-segments/history",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "interview",
+                "shown-segments",
+                "history"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": 0,\n  \"page\": 1,\n  \"page_size\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "List Query History",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/interview/shown-segments/queries",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "interview",
+                "shown-segments",
+                "queries"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": 0,\n  \"page\": 1,\n  \"page_size\": 20,\n  \"query_text\": \"example_query_text\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "List Segments By Search Log",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/interview/shown-segments/by-search-log",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "interview",
+                "shown-segments",
+                "by-search-log"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": 0,\n  \"vector_search_log_id\": 0,\n  \"page\": 1,\n  \"page_size\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "邀请码池",
+      "item": [
+        {
+          "name": "Get Pooled Invitation Code",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/invitation-codes/pool",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "invitation-codes",
+                "pool"
+              ]
+            },
+            "description": "从邀请码池获取一个可用的邀请码（用于开放注册）\n\n- 仅在开放注册模式下可用\n- 每次调用消耗一个邀请码\n- 邀请码池为空时返回404"
+          }
+        },
+        {
+          "name": "Add Codes To Pool",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/invitation-codes/pool/batch",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "invitation-codes",
+                "pool",
+                "batch"
+              ]
+            },
+            "description": "手动批量添加邀请码到系统池\n\n- 可指定数量（1-1000）和有效期（1-720小时）\n- 用于临时补充邀请码池",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"count\": 100,\n  \"expires_in_hours\": 168\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Pool Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/invitation-codes/pool/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "invitation-codes",
+                "pool",
+                "status"
+              ]
+            },
+            "description": "查询当前邀请码池状态\n\n返回:\n- available: 可用数量\n- used_today: 今日已用数量\n- expiring_soon: 24小时内过期数量\n- total_active: 总活跃数量"
+          }
+        },
+        {
+          "name": "Cleanup Expired Pool Codes",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/invitation-codes/pool/expired",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "invitation-codes",
+                "pool",
+                "expired"
+              ]
+            },
+            "description": "手动清理池中的过期邀请码\n\n将过期的邀请码标记为非活跃状态"
+          }
+        }
+      ]
+    },
+    {
+      "name": "问卷异步生成",
+      "item": [
+        {
+          "name": "Generate Survey Async",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/async-survey/generate-async",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "async-survey",
+                "generate-async"
+              ]
+            },
+            "description": "异步生成问卷 / 异步投放已有问卷\n\n支持两种模式：\n1. 生成新问卷：提供 survey_requirements，可选 generate_responses=true 自动投放\n2. 投放已有问卷：提供 survey_id，必须设置 generate_responses=true\n\n立即返回任务ID，问卷生成/投放在后台执行。\n通过 GET /api/async-survey/generate-async/{task_id} 查询状态。\n\n这个接口解决了 Cloudflare 100秒超时导致的重复请求问题。",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"survey_id\": \"example_survey_id\",\n  \"survey_requirements\": \"example_survey_requirements\",\n  \"question_count\": 10,\n  \"account_id\": 0,\n  \"save_to_db\": true,\n  \"generate_responses\": false,\n  \"segment_ids\": \"example_segment_ids\",\n  \"audience_ids\": \"example_audience_ids\",\n  \"response_mode\": \"concise\",\n  \"model_provider\": \"openrouter\",\n  \"upload_to_r2\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Survey Task Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/async-survey/generate-async/:task_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "async-survey",
+                "generate-async",
+                ":task_id"
+              ],
+              "variable": [
+                {
+                  "key": "task_id",
+                  "value": "{{example_task_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "查询异步问卷生成任务状态\n\n**响应格式与 POST /api/batch/{batch_id} 完全一致**，方便前端统一处理。\n\n状态说明:\n- pending: 任务已创建，等待处理\n- processing: 正在生成问卷\n- deploying: 问卷已生成，正在投放中\n- completed: 全部完成（问卷生成 + 投放都完成）\n- failed: 任务失败\n\n**重要**: 当状态为 `deploying` 时，会实时查询 `survey_tasks` 表获取投放进度。\n当所有投放任务完成后，状态自动变为 `completed`。"
+          }
+        },
+        {
+          "name": "Cancel Survey Task",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/async-survey/generate-async/:task_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "async-survey",
+                "generate-async",
+                ":task_id"
+              ],
+              "variable": [
+                {
+                  "key": "task_id",
+                  "value": "{{example_task_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "取消/删除异步任务\n\n删除任务记录（如果任务正在处理中，无法中断，但会删除记录）"
+          }
+        },
+        {
+          "name": "List Survey Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/async-survey/generate-async-tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "async-survey",
+                "generate-async-tasks"
+              ]
+            },
+            "description": "列出异步任务列表（从数据库查询，支持分布式部署）\n\n必须提供账号ID进行过滤，可选状态过滤"
+          }
+        },
+        {
+          "name": "Get Deployment Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/async-survey/deployment-status/:batch_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "async-survey",
+                "deployment-status",
+                ":batch_id"
+              ],
+              "variable": [
+                {
+                  "key": "batch_id",
+                  "value": "{{example_batch_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "查询投放任务状态\n\n根据批次ID查询投放任务的实时状态，包括已完成、进行中、待处理、失败的数量。"
+          }
+        },
+        {
+          "name": "Get Survey By Batch",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/async-survey/survey-by-batch/:batch_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "async-survey",
+                "survey-by-batch",
+                ":batch_id"
+              ],
+              "variable": [
+                {
+                  "key": "batch_id",
+                  "value": "{{example_batch_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "通过批次ID查询问卷信息（从数据库查询，持久化数据）\n\n当内存中的任务状态丢失后（如服务重启），可以通过此接口查询问卷信息。\n返回问卷基本信息和投放状态统计。\n\n参数：\n- batch_id: 批次ID（路径参数，必需）\n- survey_id: 问卷ID（查询参数，可选）。当投放已有问卷时，surveys表的batch_id\n             代表的是问卷生成批次而非投放批次，此时需要显式传入survey_id。\n\n使用场景（根据 /api/async-survey/generate-async 的参数组合）：\n1. 新生成问卷并投放（generate_responses=true）：\n   - surveys.batch_id == batch_id，无需传survey_id\n   - 返回问卷信息 + 投放统计\n2. 新生成问卷但不投放（generate_responses=false）：\n   - surveys.batch_id == batch_id，无需传survey_id\n   - 返回问卷信息，投放统计为空（deployment_stats=null）\n3. 投放已有问卷（survey_id + generate_responses=true）：\n   - surveys.batch_id != 投放batch_id（因为batch_id是问卷生成批次）\n   - 需要显式传入survey_id参数\n\n工作流程：\n1. 先调用 /api/async-survey/generate-async/{task_id} 获取 survey_id\n2. 再调用本接口：\n   - 场景1/2：GET /api/async-survey/survey-by-batch/{batch_id}\n   - 场景3：GET /api/async-survey/survey-by-batch/{batch_id}?survey_id={survey_id}"
+          }
+        },
+        {
+          "name": "Resume Batch Deployment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/async-survey/batch/:batch_id/resume",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "async-survey",
+                "batch",
+                ":batch_id",
+                "resume"
+              ],
+              "variable": [
+                {
+                  "key": "batch_id",
+                  "value": "{{example_batch_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "恢复中断的问卷投放任务\n\n当服务中断后，使用此接口恢复指定批次的投放任务。\n会重新启动所有 pending 和 failed 状态的任务。\n\n参数：\n- batch_id: 批次ID\n\n返回：\n- 恢复的任务数量和详情"
+          }
+        },
+        {
+          "name": "Deploy Survey Parallel",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/async-survey/deploy-parallel",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "async-survey",
+                "deploy-parallel"
+              ]
+            },
+            "description": "🚀 并发投放问卷接口（测试用）\n\n使用 dspy.Parallel 实现批量并发 LLM 推理，显著提升投放速度。\n此接口独立于原有的 /generate-async 接口，用于测试并发功能。\n\n参数兼容原有接口，支持：\n- **segment_ids**: 受众细分ID列表（与 audience_ids 二选一）\n- **audience_ids**: 受众ID列表（与 segment_ids 二选一）\n- **num_threads**: 并发线程数，建议 3-10\n- **model_provider**: 模型提供商（默认 openrouter）",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"survey_id\": 0,\n  \"account_id\": 0,\n  \"segment_ids\": \"example_segment_ids\",\n  \"audience_ids\": \"example_audience_ids\",\n  \"response_mode\": \"concise\",\n  \"num_threads\": 5,\n  \"model_provider\": \"openrouter\",\n  \"upload_to_r2\": false,\n  \"save_to_db\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Batch Heartbeat",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/async-survey/batch/:batch_id/heartbeat",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "async-survey",
+                "batch",
+                ":batch_id",
+                "heartbeat"
+              ],
+              "variable": [
+                {
+                  "key": "batch_id",
+                  "value": "{{example_batch_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "检查批次投放任务的心跳状态\n\n用于前台检测后台worker是否还在正常工作。\n基于数据库中任务的完成时间判断进度是否停滞，支持负载均衡多服务器环境。\n\n返回：\n- worker_status: worker进程状态（仅当前服务器可见）\n- activity: 活跃时间信息\n- progress: 进度信息（completed/total/stall_minutes）\n- health: 健康状态（suggest_resume/reasons）\n\n判断逻辑：\n- 如果有 processing 状态的任务但没有 worker 进程 → 建议 resume\n- 如果进度停滞超过 10 分钟（无新任务完成）→ 建议 resume"
+          }
+        }
+      ]
+    },
+    {
+      "name": "系统维护",
+      "item": [
+        {
+          "name": "Run Maintenance Now",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/maintenance/run",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "maintenance",
+                "run"
+              ]
+            },
+            "description": "立即执行一次维护任务（手动触发）"
+          }
+        },
+        {
+          "name": "Get Maintenance Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/maintenance/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "maintenance",
+                "status"
+              ]
+            },
+            "description": "获取定时任务调度器状态"
+          }
+        },
+        {
+          "name": "Start Scheduler",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/maintenance/scheduler/start",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "maintenance",
+                "scheduler",
+                "start"
+              ]
+            },
+            "description": "启动定时任务调度器"
+          }
+        },
+        {
+          "name": "Stop Scheduler",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/maintenance/scheduler/stop",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "maintenance",
+                "scheduler",
+                "stop"
+              ]
+            },
+            "description": "停止定时任务调度器"
+          }
+        },
+        {
+          "name": "Get Stuck Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/maintenance/stuck-tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "maintenance",
+                "stuck-tasks"
+              ]
+            },
+            "description": "获取当前所有卡住的任务"
+          }
+        },
+        {
+          "name": "Fix Stuck Batch",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/maintenance/fix-batch/:batch_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "maintenance",
+                "fix-batch",
+                ":batch_id"
+              ],
+              "variable": [
+                {
+                  "key": "batch_id",
+                  "value": "{{example_batch_id}}",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "修复指定批次的卡住任务"
+          }
+        }
+      ]
+    },
+    {
+      "name": "向量生成",
+      "item": [
+        {
+          "name": "Generate Vectors By Ids",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/vectors/generate/by-ids",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "vectors",
+                "generate",
+                "by-ids"
+              ]
+            },
+            "description": "通过受众画像ID列表生成向量\n\n- **audience_segment_ids**: 受众画像ID列表（1-100个）\n- **force_regenerate**: 是否强制重新生成已存在的向量\n- **embedding_model**: 使用的嵌入模型（默认：jina-embeddings-v3）",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"audience_segment_ids\": [],\n  \"force_regenerate\": false,\n  \"embedding_model\": \"jina-embeddings-v3\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Generate Vectors By Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/vectors/generate/by-task",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "vectors",
+                "generate",
+                "by-task"
+              ]
+            },
+            "description": "通过任务ID生成向量\n\n- **task_id**: 任务ID\n- **force_regenerate**: 是否强制重新生成已存在的向量\n- **embedding_model**: 使用的嵌入模型（默认：jina-embeddings-v3）\n- **limit**: 限制处理数量（可选）",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": 0,\n  \"force_regenerate\": false,\n  \"embedding_model\": \"jina-embeddings-v3\",\n  \"limit\": \"example_limit\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Vector Generation Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/vectors/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "vectors",
+                "status"
+              ]
+            },
+            "description": "获取向量生成服务状态"
+          }
+        },
+        {
+          "name": "Get Vector Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/vectors/stats",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "vectors",
+                "stats"
+              ]
+            },
+            "description": "获取向量数据统计信息"
+          }
+        }
+      ]
+    },
+    {
+      "name": "向量检索",
+      "item": [
+        {
+          "name": "Semantic Search",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/vector/search/semantic",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "vector",
+                "search",
+                "semantic"
+              ]
+            },
+            "description": "语义搜索受众画像\n\n根据自然语言查询，返回语义上最相关的受众画像",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"example_query\",\n  \"filters\": \"example_filters\",\n  \"limit\": 10,\n  \"threshold\": 0.8,\n  \"account_id\": \"example_account_id\",\n  \"task_id\": \"example_task_id\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Similar Search",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/vector/search/similar",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "vector",
+                "search",
+                "similar"
+              ]
+            },
+            "description": "相似受众画像搜索\n\n根据参考受众画像ID，查找最相似的其他受众画像",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reference_id\": 0,\n  \"limit\": 5,\n  \"threshold\": 0.85\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Multimodal Search",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/vector/search/multimodal",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "vector",
+                "search",
+                "multimodal"
+              ]
+            },
+            "description": "多模态搜索（文本+图像）\n\n结合文本查询和图像分析进行受众画像搜索",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text_query\": \"example_text_query\",\n  \"image_url\": \"example_image_url\",\n  \"limit\": 10,\n  \"threshold\": 0.8\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/vector/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "vector",
+                "health"
+              ]
+            },
+            "description": "健康检查端点"
+          }
+        },
+        {
+          "name": "Get Search Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/vector/stats",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "vector",
+                "stats"
+              ]
+            },
+            "description": "获取搜索统计信息"
+          }
+        },
+        {
+          "name": "Get Account Vector Stats",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/vector/stats/account",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "vector",
+                "stats",
+                "account"
+              ]
+            },
+            "description": "获取指定账号的向量统计信息\n\n返回账号下的向量总数、任务分布等统计数据",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": \"example_account_id\",\n  \"task_id\": \"example_task_id\",\n  \"embedding_model\": \"jina-embeddings-v3\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Task Vector Stats",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/vector/stats/task",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "vector",
+                "stats",
+                "task"
+              ]
+            },
+            "description": "获取指定任务的向量统计信息\n\n返回任务的向量数量、维度、创建时间等详细信息",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": \"example_account_id\",\n  \"task_id\": \"example_task_id\",\n  \"embedding_model\": \"jina-embeddings-v3\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Tenant Vector Distribution",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/vector/stats/distribution",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "vector",
+                "stats",
+                "distribution"
+              ]
+            },
+            "description": "获取多租户向量分布统计\n\n返回所有account_id/task_id组合的向量分布情况，用于全局数据分析",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": \"example_account_id\",\n  \"task_id\": \"example_task_id\",\n  \"embedding_model\": \"jina-embeddings-v3\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Reload Faiss Index",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/vector/reload-index",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "vector",
+                "reload-index"
+              ]
+            },
+            "description": "重新加载FAISS索引\n\n用于动态加载最新的索引文件到内存中"
+          }
+        },
+        {
+          "name": "Rebuild Faiss Index From Database",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/vector/rebuild-index",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "vector",
+                "rebuild-index"
+              ]
+            },
+            "description": "从数据库重建FAISS索引\n包含所有最新的向量数据，包括最近生成的受众细分"
+          }
+        }
+      ]
+    }
+  ]
+}

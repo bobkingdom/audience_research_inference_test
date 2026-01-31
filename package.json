@@ -1,22 +1,25 @@
 {
-  "name": "audience-research-test",
-  "version": "1.0.0",
-  "description": "Comprehensive API test suite for Inference Service V2 - Audience Research API",
+  "name": "audience-research-inference-test",
+  "version": "2.0.0",
+  "description": "Inference Service V2 API Test Suite - AAA Testing Pattern",
   "type": "module",
+  "main": "runner.js",
   "scripts": {
+    "start": "node server.js",
     "test": "node runner.js",
-    "test:health": "node runner.js --module health",
-    "test:audience": "node runner.js --module audience",
-    "test:focus-group": "node runner.js --module focus-group",
-    "test:vector": "node runner.js --module vector",
-    "test:content": "node runner.js --module content",
-    "test:avatar": "node runner.js --module avatar",
-    "test:survey": "node runner.js --module survey",
     "test:smoke": "node runner.js --smoke",
-    "test:report": "node runner.js --report"
+    "test:module": "node runner.js --module",
+    "test:verbose": "node runner.js --verbose",
+    "test:report": "node runner.js --report",
+    "test:all": "node runner.js --report --verbose"
   },
-  "keywords": ["api-testing", "audience-research", "inference-service"],
-  "author": "Clawd",
+  "keywords": [
+    "api-testing",
+    "inference-service",
+    "audience-research",
+    "aaa-testing"
+  ],
+  "author": "",
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0"
