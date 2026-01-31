@@ -1,0 +1,122 @@
+{
+  "timestamp": "2026-01-31T18:18:51.950Z",
+  "duration": "34.53s",
+  "config": {
+    "baseUrl": "https://ext.survy.ai",
+    "testAccountId": 12
+  },
+  "summary": {
+    "total": 15,
+    "passed": 9,
+    "failed": 6,
+    "skipped": 0,
+    "passRate": "60.0%"
+  },
+  "tests": [
+    {
+      "suite": "Workflow - Authentication",
+      "name": "Login and get account_id",
+      "status": "passed",
+      "duration": 560,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Audience Generation Pipeline",
+      "name": "Step 1: Create task",
+      "status": "passed",
+      "duration": 195,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Audience Generation Pipeline",
+      "name": "Step 2: Execute intent analysis",
+      "status": "failed",
+      "duration": 144,
+      "error": "Intent analysis should succeed (got 422: [object Object])"
+    },
+    {
+      "suite": "Workflow - Audience Generation Pipeline",
+      "name": "Step 3: Generate personas",
+      "status": "failed",
+      "duration": 163,
+      "error": "Personas generation should succeed (got 422: [object Object])"
+    },
+    {
+      "suite": "Workflow - Audience Generation Pipeline",
+      "name": "Step 4: Query task progress",
+      "status": "passed",
+      "duration": 151,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Audience Generation Pipeline",
+      "name": "Step 5: Analyze resume state",
+      "status": "passed",
+      "duration": 152,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Focus Group Pipeline",
+      "name": "Step 1: Create focus group",
+      "status": "failed",
+      "duration": 168,
+      "error": "Response should have id"
+    },
+    {
+      "suite": "Workflow - Focus Group Pipeline",
+      "name": "Step 2: List focus groups",
+      "status": "passed",
+      "duration": 23155,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Focus Group Pipeline",
+      "name": "Step 3: Get focus group details",
+      "status": "failed",
+      "duration": 1,
+      "error": "No focusGroupId from previous step"
+    },
+    {
+      "suite": "Workflow - Focus Group Pipeline",
+      "name": "Step 4: Check questions ready",
+      "status": "failed",
+      "duration": 0,
+      "error": "No focusGroupId from previous step"
+    },
+    {
+      "suite": "Workflow - Focus Group Pipeline",
+      "name": "Step 5: Update focus group",
+      "status": "failed",
+      "duration": 0,
+      "error": "No focusGroupId from previous step"
+    },
+    {
+      "suite": "Workflow - Vector Search Pipeline",
+      "name": "Step 1: Check vector health",
+      "status": "passed",
+      "duration": 142,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Vector Search Pipeline",
+      "name": "Step 2: Get vector stats",
+      "status": "passed",
+      "duration": 141,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Vector Search Pipeline",
+      "name": "Step 3: Semantic search",
+      "status": "passed",
+      "duration": 8426,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Vector Search Pipeline",
+      "name": "Step 4: Similarity search (using previous result)",
+      "status": "passed",
+      "duration": 1,
+      "error": null
+    }
+  ]
+}

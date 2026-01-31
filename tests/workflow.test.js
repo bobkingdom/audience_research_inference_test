@@ -76,12 +76,14 @@ export async function runWorkflowTests() {
     await test('Step 2: Execute intent analysis', async () => {
       // Arrange
       const taskId = chain.get('taskId');
+      const accountId = chain.get('accountId') || getAccountId();
       if (!taskId) {
         throw new Error('No taskId from previous step');
       }
 
       const body = {
-        user_input: testData.userInput
+        user_input: testData.userInput,
+        account_id: accountId  // Required field
       };
 
       // Act
@@ -93,20 +95,22 @@ export async function runWorkflowTests() {
       assert.httpOk(response, 'Intent analysis should succeed');
 
       // Store intent data
-      if (response.data?.intent) {
-        chain.set('intentData', response.data.intent, 'task/intent');
+      if (response.data?.intent_analysis) {
+        chain.set('intentData', response.data.intent_analysis, 'task/intent');
       }
     });
 
     await test('Step 3: Generate personas', async () => {
       // Arrange
       const taskId = chain.get('taskId');
+      const accountId = chain.get('accountId') || getAccountId();
       if (!taskId) {
         throw new Error('No taskId from previous step');
       }
 
       const body = {
-        segment_count: testData.segmentCount
+        segment_count: testData.segmentCount,
+        account_id: accountId  // Required field
       };
 
       // Act
@@ -118,8 +122,8 @@ export async function runWorkflowTests() {
       assert.httpOk(response, 'Personas generation should succeed');
 
       // Store personas data
-      if (response.data?.personas) {
-        chain.set('personas', response.data.personas, 'task/personas');
+      if (response.data?.segments) {
+        chain.set('personas', response.data.segments, 'task/personas');
       }
     });
 
@@ -178,10 +182,12 @@ export async function runWorkflowTests() {
 
       // Assert
       assert.httpOk(response, 'Focus group creation should succeed');
-      assert.hasProperty(response.data, 'id', 'Response should have id');
+      // API returns focus_group_id, not id
+      const focusGroupId = response.data?.focus_group_id || response.data?.id;
+      assert.ok(focusGroupId, 'Response should have focus_group_id');
 
       // Store for next steps
-      chain.set('focusGroupId', response.data.id, 'focus-group/create');
+      chain.set('focusGroupId', focusGroupId, 'focus-group/create');
     });
 
     await test('Step 2: List focus groups', async () => {
