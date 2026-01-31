@@ -291,7 +291,7 @@
 
         const data = await res.json();
         
-        if (res.ok && data.token) {
+        if (res.ok && (data.access_token || data.token)) {
           showSuccess(data);
         } else {
           showError(data.message || data.detail || '登录失败');
@@ -332,7 +332,7 @@
 
         const data = await res.json();
         
-        if (res.ok && data.token) {
+        if (res.ok && (data.access_token || data.token)) {
           showSuccess(data);
         } else {
           showError(data.message || data.detail || '注册失败');
@@ -346,8 +346,8 @@
     });
 
     function showSuccess(data) {
-      currentToken = data.token;
-      document.getElementById('tokenDisplay').textContent = data.token;
+      currentToken = data.access_token || data.token;
+      document.getElementById('tokenDisplay').textContent = data.access_token || data.token;
       
       const user = data.user || {};
       document.getElementById('userInfo').innerHTML = `
