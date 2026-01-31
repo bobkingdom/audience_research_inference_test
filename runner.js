@@ -24,6 +24,10 @@ import runFocusGroupTests from './tests/focus-group.test.js';
 import runAvatarTests from './tests/avatar.test.js';
 import runAsyncSurveyTests from './tests/async-survey.test.js';
 import runContentGenerationTests from './tests/content-generation.test.js';
+import runWorkflowTests from './tests/workflow.test.js';
+
+// Import auth helpers
+import { login, getToken } from './lib/auth.js';
 
 const TEST_MODULES = {
   health: { name: 'Health Checks', fn: runHealthTests, smoke: true },
@@ -33,6 +37,7 @@ const TEST_MODULES = {
   avatar: { name: 'Avatar API', fn: runAvatarTests },
   'async-survey': { name: 'Async Survey API', fn: runAsyncSurveyTests },
   'content-generation': { name: 'Content Generation API', fn: runContentGenerationTests },
+  workflow: { name: 'Workflow Tests (Chained)', fn: runWorkflowTests },
 };
 
 function parseArgs() {
@@ -126,10 +131,15 @@ async function main() {
     client.verbose = true;
   }
 
-  // Set JWT token if available
-  if (config.jwtToken) {
-    client.setJwtToken(config.jwtToken);
-    console.log('🔐 JWT Token configured');
+  // Auto-login if credentials provided
+  if (process.env.TEST_EMAIL && process.env.TEST_PASSWORD) {
+    try {
+      await login(process.env.TEST_EMAIL, process.env.TEST_PASSWORD);
+    } catch (error) {
+      console.log(`⚠️ Auto-login failed: ${error.message}`);
+    }
+  } else if (config.jwtToken) {
+    console.log('🔐 Using configured JWT Token');
   }
 
   console.log('═══════════════════════════════════════════════════');
