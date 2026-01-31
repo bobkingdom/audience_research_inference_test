@@ -4,6 +4,22 @@
 
 本文档描述 Audience Research API 的认证相关接口。所有认证接口基于 JWT (JSON Web Token) 实现。
 
+## ⚠️ 重要：API Key 要求
+
+所有接口（包括认证接口）都需要在请求头中携带 API Key：
+
+```
+X-API-Key: outsea_fu9etech
+```
+
+## 请求格式
+
+认证接口使用 **form-urlencoded** 格式，而非 JSON：
+
+```
+Content-Type: application/x-www-form-urlencoded
+```
+
 ---
 
 ## 接口列表
