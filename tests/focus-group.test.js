@@ -228,6 +228,39 @@ export async function runFocusGroupTests() {
       assert.httpError(response, 'Missing host_prompt should be rejected');
     });
 
+    await test('POST /:id/participant-response - Generate single participant response (New V2)', async () => {
+      // Arrange
+      const focusGroupId = createdFocusGroupId || '123';
+      const body = {
+        participant_id: 456,
+        host_message: '请分享你的护肤习惯',
+        account_id: testAccountId
+      };
+      
+      // Act
+      const response = await client.post(`/api/focus-group/${focusGroupId}/participant-response`, body, {
+        timeout: timeout.long
+      });
+      
+      // Assert
+      assert.ok([200, 400, 404, 422].includes(response.status), 'Single participant response should handle request');
+    });
+
+    await test('POST /:id/participant-response - Missing participant_id should fail', async () => {
+      // Arrange
+      const focusGroupId = createdFocusGroupId || '123';
+      const body = {
+        host_message: '请分享你的护肤习惯',
+        account_id: testAccountId
+      };
+      
+      // Act
+      const response = await client.post(`/api/focus-group/${focusGroupId}/participant-response`, body);
+      
+      // Assert
+      assert.httpError(response, 'Missing participant_id should be rejected');
+    });
+
     await test('POST /:id/messages - Get messages', async () => {
       // Arrange
       const focusGroupId = createdFocusGroupId || '123';
@@ -293,6 +326,18 @@ export async function runFocusGroupTests() {
       
       // Assert
       assert.ok([200, 404].includes(response.status), 'Get active batch task should handle request');
+    });
+
+    await test('GET /:id/batch-task/:taskId - Query batch task progress (New V2)', async () => {
+      // Arrange
+      const focusGroupId = createdFocusGroupId || '123';
+      const taskId = 'task-uuid-here';
+      
+      // Act
+      const response = await client.get(`/api/focus-group/${focusGroupId}/batch-task/${taskId}`);
+      
+      // Assert
+      assert.ok([200, 404].includes(response.status), 'Query batch task progress should handle request');
     });
   });
 

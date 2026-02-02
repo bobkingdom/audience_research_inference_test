@@ -1,0 +1,1445 @@
+{
+  "timestamp": "2026-02-02T10:06:57.929Z",
+  "duration": "43.64s",
+  "config": {
+    "baseUrl": "https://ext.survy.ai",
+    "testAccountId": 12
+  },
+  "summary": {
+    "total": 204,
+    "passed": 175,
+    "failed": 29,
+    "skipped": 0,
+    "passRate": "85.8%"
+  },
+  "tests": [
+    {
+      "suite": "Health Check - /inference/health",
+      "name": "GET /inference/health - Should return healthy status",
+      "status": "passed",
+      "duration": 216,
+      "error": null
+    },
+    {
+      "suite": "Health Check - /inference/health",
+      "name": "GET /inference/health - Response time should be < 5s",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Health Check - /inference/health",
+      "name": "GET /inference/health - Should work without auth",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Ready Check - /inference/ready",
+      "name": "GET /inference/ready - Should return ready status",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Ready Check - /inference/ready",
+      "name": "GET /inference/ready - Response time should be < 5s",
+      "status": "passed",
+      "duration": 141,
+      "error": null
+    },
+    {
+      "suite": "Vector Health - /api/v1/vector/health",
+      "name": "GET /api/v1/vector/health - Should return vector service status",
+      "status": "passed",
+      "duration": 141,
+      "error": null
+    },
+    {
+      "suite": "Vector Health - /api/v1/vector/health",
+      "name": "GET /api/v1/vector/health - Should include service details",
+      "status": "passed",
+      "duration": 141,
+      "error": null
+    },
+    {
+      "suite": "Avatar Health - /api/avatars/health",
+      "name": "GET /api/avatars/health - Should return avatar service status",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Health & Stats",
+      "name": "GET /api/v1/vector/health - Vector service health",
+      "status": "passed",
+      "duration": 418,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Health & Stats",
+      "name": "GET /api/v1/vector/stats - Vector statistics",
+      "status": "passed",
+      "duration": 142,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Health & Stats",
+      "name": "POST /api/v1/vector/stats/account - Account vector stats",
+      "status": "passed",
+      "duration": 156,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Health & Stats",
+      "name": "POST /api/v1/vector/stats/account - Missing account_id should fail",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Health & Stats",
+      "name": "POST /api/v1/vector/stats/task - Task vector stats",
+      "status": "failed",
+      "duration": 138,
+      "error": "Task stats should handle request"
+    },
+    {
+      "suite": "Vector API - Health & Stats",
+      "name": "POST /api/v1/vector/stats/distribution - Vector distribution",
+      "status": "passed",
+      "duration": 280,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Semantic Search",
+      "name": "POST /search/semantic - Valid semantic search",
+      "status": "passed",
+      "duration": 630,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Semantic Search",
+      "name": "POST /search/semantic - Empty query should fail",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Semantic Search",
+      "name": "POST /search/semantic - Missing account_id should fail",
+      "status": "failed",
+      "duration": 554,
+      "error": "Missing account_id should be rejected"
+    },
+    {
+      "suite": "Vector API - Semantic Search",
+      "name": "POST /search/semantic - With filters",
+      "status": "passed",
+      "duration": 862,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Similarity Search",
+      "name": "POST /search/similar - Valid similarity search",
+      "status": "passed",
+      "duration": 141,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Similarity Search",
+      "name": "POST /search/similar - Missing audience_id should fail",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Multimodal Search",
+      "name": "POST /search/multimodal - Text-only multimodal search",
+      "status": "passed",
+      "duration": 556,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Multimodal Search",
+      "name": "POST /search/multimodal - Empty text_query should fail",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Index Management",
+      "name": "POST /reload-index - Reload vector index",
+      "status": "passed",
+      "duration": 145,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Intent Analysis",
+      "name": "POST /intent-analysis - Valid request",
+      "status": "passed",
+      "duration": 195,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Intent Analysis",
+      "name": "POST /intent-analysis - Empty user_input should fail",
+      "status": "passed",
+      "duration": 137,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Intent Analysis",
+      "name": "POST /intent-analysis - Missing user_input should fail",
+      "status": "passed",
+      "duration": 137,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Personas",
+      "name": "POST /personas - Valid request",
+      "status": "passed",
+      "duration": 238,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Personas",
+      "name": "POST /personas - Invalid segment_count (0) should fail",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Personas",
+      "name": "POST /personas - Negative segment_count should fail",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Personas",
+      "name": "POST /personas - Missing user_input should fail",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Complete Flow",
+      "name": "POST /complete - Valid request",
+      "status": "passed",
+      "duration": 249,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Complete Flow",
+      "name": "POST /complete - Empty body should fail",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Task Management",
+      "name": "POST /task/create - Create new task",
+      "status": "passed",
+      "duration": 199,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Task Management",
+      "name": "POST /task/create - Missing account_id should fail",
+      "status": "failed",
+      "duration": 179,
+      "error": "Missing account_id should be rejected"
+    },
+    {
+      "suite": "Audience Generate - Task Management",
+      "name": "POST /task/create - Missing user_input should fail",
+      "status": "failed",
+      "duration": 138,
+      "error": "Missing user_input should be rejected"
+    },
+    {
+      "suite": "Audience Generate - Task Management",
+      "name": "GET /task/:id - Query existing task",
+      "status": "passed",
+      "duration": 149,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Task Management",
+      "name": "GET /task/:id - Non-existent task should return 404",
+      "status": "failed",
+      "duration": 137,
+      "error": "Non-existent task should return 404 (got 422)"
+    },
+    {
+      "suite": "Audience Generate - Task Management",
+      "name": "GET /task/:id/analyze-resume - Analyze task resume state",
+      "status": "passed",
+      "duration": 151,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Task Step Execution",
+      "name": "POST /task/:id/intent - Execute task intent analysis",
+      "status": "failed",
+      "duration": 0,
+      "error": "createdTaskId is not defined"
+    },
+    {
+      "suite": "Audience Generate - Task Step Execution",
+      "name": "POST /task/:id/intent - Missing user_input should fail",
+      "status": "failed",
+      "duration": 0,
+      "error": "createdTaskId is not defined"
+    },
+    {
+      "suite": "Audience Generate - Task Step Execution",
+      "name": "POST /task/:id/personas - Execute task personas generation",
+      "status": "failed",
+      "duration": 0,
+      "error": "createdTaskId is not defined"
+    },
+    {
+      "suite": "Audience Generate - Task Step Execution",
+      "name": "POST /task/:id/audiences - Execute task audience generation",
+      "status": "failed",
+      "duration": 0,
+      "error": "createdTaskId is not defined"
+    },
+    {
+      "suite": "Audience Generate - Task Step Execution",
+      "name": "POST /task/:id/resume - Resume interrupted task",
+      "status": "failed",
+      "duration": 0,
+      "error": "createdTaskId is not defined"
+    },
+    {
+      "suite": "Audience Generate - Task Step Execution",
+      "name": "POST /task/:id/resume - Invalid resume_step should fail",
+      "status": "failed",
+      "duration": 0,
+      "error": "createdTaskId is not defined"
+    },
+    {
+      "suite": "Audience Generate - Segment Operations",
+      "name": "POST /segment/rename - Rename segment",
+      "status": "passed",
+      "duration": 197,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Segment Operations",
+      "name": "POST /segment/rename - Missing segment_id should fail",
+      "status": "failed",
+      "duration": 139,
+      "error": "Missing segment_id should be rejected"
+    },
+    {
+      "suite": "Audience Generate - Segment Operations",
+      "name": "POST /segment/batch-rename - Batch rename segments",
+      "status": "passed",
+      "duration": 282,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Audience Operations",
+      "name": "POST /audience/insight - Get audience insight",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Audience Operations",
+      "name": "POST /audience/insight - Missing audience_id should fail",
+      "status": "passed",
+      "duration": 137,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Audience Operations",
+      "name": "GET /audience/personality-integrity - Check personality integrity",
+      "status": "passed",
+      "duration": 150,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Audience Operations",
+      "name": "GET /audience/personality-integrity/by-account - Account stats",
+      "status": "passed",
+      "duration": 147,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Interview Extraction",
+      "name": "POST /interview/extract - Extract from interview",
+      "status": "failed",
+      "duration": 140,
+      "error": "Interview extraction should succeed (got 422: [object Object])"
+    },
+    {
+      "suite": "Audience Generate - Interview Extraction",
+      "name": "POST /interview/extract - Empty transcript should fail",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Interview Extraction",
+      "name": "GET /interview/extractions - List extractions",
+      "status": "passed",
+      "duration": 194,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Interview Extraction",
+      "name": "GET /interview/extraction/:id - Get specific extraction",
+      "status": "passed",
+      "duration": 149,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Interview Extraction",
+      "name": "DELETE /interview/extraction/:id - Delete extraction record (New V2)",
+      "status": "failed",
+      "duration": 140,
+      "error": "Delete extraction should handle request"
+    },
+    {
+      "suite": "Audience Generate - Interview Extraction",
+      "name": "POST /interview/extraction-to-audience - Convert to audience (New V2)",
+      "status": "passed",
+      "duration": 358,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Interview Extraction",
+      "name": "POST /interview/extraction-to-audience - Missing extraction_id should fail",
+      "status": "failed",
+      "duration": 356,
+      "error": "Missing extraction_id should be rejected"
+    },
+    {
+      "suite": "Audience Generate - Batch Operations",
+      "name": "POST /batch-generate-prompt - Batch generate prompts",
+      "status": "passed",
+      "duration": 148,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Batch Operations",
+      "name": "POST /batch-generate-prompt - Empty audience_ids should fail",
+      "status": "passed",
+      "duration": 137,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Batch Operations",
+      "name": "POST /batch-pregenerate-prompt - Pre-generate prompts (New V2)",
+      "status": "passed",
+      "duration": 142,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Batch Operations",
+      "name": "POST /batch-pregenerate-prompt - Missing task_id should fail",
+      "status": "passed",
+      "duration": 137,
+      "error": null
+    },
+    {
+      "suite": "Audience Generate - Batch Operations",
+      "name": "POST /segments/audiences - Generate audiences from segments",
+      "status": "passed",
+      "duration": 156,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Create & List",
+      "name": "POST /api/focus-group/create - Create focus group",
+      "status": "passed",
+      "duration": 169,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Create & List",
+      "name": "POST /api/focus-group/create - Missing account_id should fail",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Create & List",
+      "name": "POST /api/focus-group/create - Missing title should fail",
+      "status": "passed",
+      "duration": 141,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Create & List",
+      "name": "GET /api/focus-group/list - List focus groups",
+      "status": "passed",
+      "duration": 855,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Create & List",
+      "name": "GET /api/focus-group/list - Missing account_id should fail",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Create & List",
+      "name": "GET /api/focus-group/report-types/list - List report types",
+      "status": "passed",
+      "duration": 146,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Participants",
+      "name": "POST /:id/participants - Add participants",
+      "status": "failed",
+      "duration": 143,
+      "error": "Add participants should handle request"
+    },
+    {
+      "suite": "Focus Group - Participants",
+      "name": "POST /:id/participants - Empty audience_ids should fail",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Participants",
+      "name": "POST /:id/participants/list - List participants",
+      "status": "passed",
+      "duration": 157,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Operations",
+      "name": "POST /:id/start - Start focus group",
+      "status": "passed",
+      "duration": 150,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Operations",
+      "name": "POST /:id/check-questions-ready - Check questions ready",
+      "status": "passed",
+      "duration": 150,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Operations",
+      "name": "POST /:id/next-decision - Get next decision",
+      "status": "passed",
+      "duration": 152,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Operations",
+      "name": "POST /:id/host-message - Send host message",
+      "status": "passed",
+      "duration": 486,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Operations",
+      "name": "POST /:id/host-message - Missing host_prompt should fail",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Operations",
+      "name": "POST /:id/participant-response - Generate single participant response (New V2)",
+      "status": "failed",
+      "duration": 151,
+      "error": "Single participant response should handle request"
+    },
+    {
+      "suite": "Focus Group - Operations",
+      "name": "POST /:id/participant-response - Missing participant_id should fail",
+      "status": "passed",
+      "duration": 141,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Operations",
+      "name": "POST /:id/messages - Get messages",
+      "status": "passed",
+      "duration": 161,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Batch Operations",
+      "name": "POST /:id/batch-generate-prompts - Batch generate prompts",
+      "status": "passed",
+      "duration": 151,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Batch Operations",
+      "name": "POST /:id/batch-participant-response - Batch responses",
+      "status": "failed",
+      "duration": 154,
+      "error": "Batch response should handle request"
+    },
+    {
+      "suite": "Focus Group - Batch Operations",
+      "name": "GET /:id/active-batch-task - Get active batch task",
+      "status": "passed",
+      "duration": 152,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Batch Operations",
+      "name": "GET /:id/batch-task/:taskId - Query batch task progress (New V2)",
+      "status": "passed",
+      "duration": 148,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Analysis & Summary",
+      "name": "POST /:id/extract-insights - Extract insights",
+      "status": "passed",
+      "duration": 152,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Analysis & Summary",
+      "name": "POST /:id/insights - Get insights",
+      "status": "passed",
+      "duration": 158,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Analysis & Summary",
+      "name": "GET /:id/summary - Get summary",
+      "status": "passed",
+      "duration": 175,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Analysis & Summary",
+      "name": "POST /:id/end - End focus group",
+      "status": "passed",
+      "duration": 147,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Update",
+      "name": "PATCH /:id - Update focus group",
+      "status": "passed",
+      "duration": 151,
+      "error": null
+    },
+    {
+      "suite": "Focus Group - Update",
+      "name": "PATCH /:id - Invalid status should fail",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Avatar API - Health & Tasks",
+      "name": "GET /api/avatars/health - Avatar service health",
+      "status": "passed",
+      "duration": 137,
+      "error": null
+    },
+    {
+      "suite": "Avatar API - Health & Tasks",
+      "name": "GET /api/avatars/batch-tasks - List batch tasks",
+      "status": "passed",
+      "duration": 146,
+      "error": null
+    },
+    {
+      "suite": "Avatar API - Health & Tasks",
+      "name": "GET /api/avatars/regenerate/tasks - List regenerate tasks",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Avatar API - Generation",
+      "name": "POST /api/avatars/openrouter-generate - Generate single avatar",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Avatar API - Generation",
+      "name": "POST /api/avatars/openrouter-generate - Missing audience_id should fail",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Avatar API - Generation",
+      "name": "POST /api/avatars/batch-generate - Batch generate avatars",
+      "status": "passed",
+      "duration": 176,
+      "error": null
+    },
+    {
+      "suite": "Avatar API - Generation",
+      "name": "POST /api/avatars/batch-generate - Empty audience_ids should fail",
+      "status": "failed",
+      "duration": 140,
+      "error": "Empty audience_ids should be rejected"
+    },
+    {
+      "suite": "Avatar API - Generation",
+      "name": "POST /api/avatars/openrouter-batch-generate - OpenRouter batch",
+      "status": "failed",
+      "duration": 140,
+      "error": "OpenRouter batch should handle request"
+    },
+    {
+      "suite": "Avatar API - Regeneration",
+      "name": "POST /api/avatars/regenerate - Regenerate avatar",
+      "status": "passed",
+      "duration": 147,
+      "error": null
+    },
+    {
+      "suite": "Avatar API - Regeneration",
+      "name": "POST /api/avatars/regenerate - Missing audience_id should fail",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Avatar API - Regeneration",
+      "name": "GET /api/avatars/regenerate/:task_id/status - Get regen status",
+      "status": "passed",
+      "duration": 146,
+      "error": null
+    },
+    {
+      "suite": "Avatar API - Fix Operations",
+      "name": "GET /api/avatars/scan-chinese-avatars - Scan Chinese avatars",
+      "status": "passed",
+      "duration": 2555,
+      "error": null
+    },
+    {
+      "suite": "Avatar API - Fix Operations",
+      "name": "POST /api/avatars/fix-chinese-avatars - Fix Chinese avatars",
+      "status": "failed",
+      "duration": 145,
+      "error": "Fix Chinese avatars should handle request"
+    },
+    {
+      "suite": "Avatar API - Fix Operations",
+      "name": "POST /api/avatars/fix-unknown-gender-avatars - Fix unknown gender",
+      "status": "passed",
+      "duration": 157,
+      "error": null
+    },
+    {
+      "suite": "Avatar API - Batch Task Management",
+      "name": "GET /api/avatars/batch-progress/:id - Get batch progress",
+      "status": "passed",
+      "duration": 163,
+      "error": null
+    },
+    {
+      "suite": "Avatar API - Batch Task Management",
+      "name": "DELETE /api/avatars/batch-tasks/:id - Delete batch task",
+      "status": "passed",
+      "duration": 142,
+      "error": null
+    },
+    {
+      "suite": "Async Survey - Generation",
+      "name": "POST /api/async-survey/generate-async - Create async survey",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Async Survey - Generation",
+      "name": "POST /api/async-survey/generate-async - Missing account_id should fail",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Async Survey - Generation",
+      "name": "POST /api/async-survey/generate-async - Empty audience_ids should fail",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Async Survey - Task Management",
+      "name": "GET /api/async-survey/generate-async-tasks - List tasks",
+      "status": "passed",
+      "duration": 159,
+      "error": null
+    },
+    {
+      "suite": "Async Survey - Task Management",
+      "name": "GET /api/async-survey/generate-async/:id - Get task details",
+      "status": "passed",
+      "duration": 147,
+      "error": null
+    },
+    {
+      "suite": "Async Survey - Task Management",
+      "name": "DELETE /api/async-survey/generate-async/:id - Delete task",
+      "status": "passed",
+      "duration": 151,
+      "error": null
+    },
+    {
+      "suite": "Async Survey - Parallel Deployment",
+      "name": "POST /api/async-survey/deploy-parallel - Deploy parallel survey",
+      "status": "passed",
+      "duration": 256,
+      "error": null
+    },
+    {
+      "suite": "Async Survey - Parallel Deployment",
+      "name": "POST /api/async-survey/deploy-parallel - Missing survey_id should fail",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Async Survey - Batch Management",
+      "name": "GET /api/async-survey/deployment-status/:batch_id - Get deployment status",
+      "status": "passed",
+      "duration": 148,
+      "error": null
+    },
+    {
+      "suite": "Async Survey - Batch Management",
+      "name": "GET /api/async-survey/batch/:batch_id/heartbeat - Batch heartbeat",
+      "status": "passed",
+      "duration": 229,
+      "error": null
+    },
+    {
+      "suite": "Async Survey - Batch Management",
+      "name": "POST /api/async-survey/batch/:batch_id/resume - Resume batch",
+      "status": "passed",
+      "duration": 268,
+      "error": null
+    },
+    {
+      "suite": "Async Survey - Batch Management",
+      "name": "GET /api/async-survey/survey-by-batch/:batch_id - Get surveys by batch",
+      "status": "passed",
+      "duration": 151,
+      "error": null
+    },
+    {
+      "suite": "Content Generation - History & Stats",
+      "name": "GET /api/content-generation/history/:account_id - Get history",
+      "status": "passed",
+      "duration": 665,
+      "error": null
+    },
+    {
+      "suite": "Content Generation - History & Stats",
+      "name": "GET /api/content-generation/history/:account_id - Invalid account should handle",
+      "status": "passed",
+      "duration": 168,
+      "error": null
+    },
+    {
+      "suite": "Content Generation - History & Stats",
+      "name": "GET /api/content-generation/statistics/:account_id - Get statistics",
+      "status": "passed",
+      "duration": 156,
+      "error": null
+    },
+    {
+      "suite": "Content Generation - Update",
+      "name": "PUT /api/content-generation/update - Update content",
+      "status": "passed",
+      "duration": 146,
+      "error": null
+    },
+    {
+      "suite": "Content Generation - Update",
+      "name": "PUT /api/content-generation/update - Missing content_id should fail",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Content Generation - Reddit Comment",
+      "name": "POST /api/generate-reddit-comment - Generate Reddit comment",
+      "status": "passed",
+      "duration": 160,
+      "error": null
+    },
+    {
+      "suite": "Content Generation - Reddit Comment",
+      "name": "POST /api/generate-reddit-comment - Missing audience_id should fail",
+      "status": "passed",
+      "duration": 144,
+      "error": null
+    },
+    {
+      "suite": "Content Generation - Reddit Comment",
+      "name": "POST /api/generate-reddit-comment - Missing post_context should fail",
+      "status": "passed",
+      "duration": 142,
+      "error": null
+    },
+    {
+      "suite": "Content Generation - Reddit Comment",
+      "name": "POST /api/generate-reddit-comment - Empty post content should fail",
+      "status": "passed",
+      "duration": 141,
+      "error": null
+    },
+    {
+      "suite": "Content Generation - Survey Article",
+      "name": "POST /api/survey/:id/generate-article - Generate article from survey",
+      "status": "passed",
+      "duration": 233,
+      "error": null
+    },
+    {
+      "suite": "Content Generation - Survey Article",
+      "name": "POST /api/survey/:id/generate-article - Missing account_id should fail",
+      "status": "passed",
+      "duration": 160,
+      "error": null
+    },
+    {
+      "suite": "Content Generation - Survey Article",
+      "name": "POST /api/survey/:id/generate-article - Invalid survey should return 404",
+      "status": "failed",
+      "duration": 213,
+      "error": "Invalid survey should return 404 or 422"
+    },
+    {
+      "suite": "Chat API - Session Management",
+      "name": "POST /sessions/batch - Batch create chat sessions",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Chat API - Session Management",
+      "name": "POST /sessions/batch - Missing account_id should fail",
+      "status": "passed",
+      "duration": 141,
+      "error": null
+    },
+    {
+      "suite": "Chat API - Session Management",
+      "name": "POST /sessions/batch - Empty audience_ids should fail",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Chat API - Messages",
+      "name": "POST /sessions/:id/messages - Send chat message",
+      "status": "passed",
+      "duration": 141,
+      "error": null
+    },
+    {
+      "suite": "Chat API - Messages",
+      "name": "POST /sessions/:id/messages - Missing content should fail",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Chat API - Messages",
+      "name": "POST /sessions/:id/messages - Empty content should fail",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Chat API - Session End",
+      "name": "POST /sessions/:id/end - End chat session",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Chat API - Session End",
+      "name": "POST /sessions/:id/end - Missing account_id should fail",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Chat API - Interview Questions",
+      "name": "POST /interview-questions/by-participant - Generate by participant",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Chat API - Interview Questions",
+      "name": "POST /interview-questions/by-participant - Missing participant_id should fail",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Chat API - Interview Questions",
+      "name": "POST /interview-questions - Generate interview questions",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Chat API - Interview Questions",
+      "name": "POST /interview-questions - Missing account_id should fail",
+      "status": "passed",
+      "duration": 141,
+      "error": null
+    },
+    {
+      "suite": "Chat API - Interview Questions",
+      "name": "GET /sessions/:id/interview-questions - Get interview questions",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Tasks API - Query",
+      "name": "GET /api/tasks/:id - Get task info",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Tasks API - Query",
+      "name": "GET /api/tasks/:id/result - Get task result",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Tasks API - Query",
+      "name": "GET /api/tasks/:id/audiences - Get task audiences",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Tasks API - Query",
+      "name": "GET /api/tasks/non-existent-id - Non-existent task should return 404",
+      "status": "failed",
+      "duration": 140,
+      "error": "Non-existent task should return 404 (got 422)"
+    },
+    {
+      "suite": "Tasks API - Retry Operations",
+      "name": "POST /api/tasks/:id/retry-failed-responses - Retry failed survey responses",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Tasks API - Retry Operations",
+      "name": "POST /api/tasks/:id/retry-failed-responses - Invalid task_id format",
+      "status": "passed",
+      "duration": 146,
+      "error": null
+    },
+    {
+      "suite": "Tasks API - Retry Operations",
+      "name": "POST /api/tasks/:id/retry-failed-audience-generation - Retry failed audiences",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Tasks API - Resume Operations",
+      "name": "POST /api/tasks/:id/resume-from-survey - Resume from survey stage",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Tasks API - Resume Operations",
+      "name": "POST /api/tasks/:id/resume - Resume interrupted task",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Tasks API - Resume Operations",
+      "name": "POST /api/tasks/:id/resume - Empty body should be accepted",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Tasks API - Edge Cases",
+      "name": "GET /api/tasks/ - Missing task ID should fail",
+      "status": "passed",
+      "duration": 276,
+      "error": null
+    },
+    {
+      "suite": "Tasks API - Edge Cases",
+      "name": "POST /api/tasks/:id/retry-failed-responses - Very large task_id",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Survey API - Generation",
+      "name": "POST /api/survey/generate - Generate survey",
+      "status": "failed",
+      "duration": 139,
+      "error": "Survey generation should succeed (got 404: Not Found)"
+    },
+    {
+      "suite": "Survey API - Generation",
+      "name": "POST /api/survey/generate - Missing survey_requirements should fail",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Survey API - Generation",
+      "name": "POST /api/survey/generate - Missing account_id should fail",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Survey API - Generation",
+      "name": "POST /api/survey/generate - Invalid question_count (0) should fail",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Survey API - Response Generation",
+      "name": "POST /api/survey/generate-responses - Deploy and generate responses",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Survey API - Response Generation",
+      "name": "POST /api/survey/generate-responses - Missing survey_id should fail",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Survey API - Response Generation",
+      "name": "POST /api/survey/generate-responses - Empty audience list should fail",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Survey API - Statistics",
+      "name": "POST /api/survey/:id/statistics - Get survey statistics",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Survey API - Statistics",
+      "name": "POST /api/survey/:id/statistics - With batch_id filter",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Survey API - Reports",
+      "name": "POST /api/survey/generate-report - Generate report (general)",
+      "status": "passed",
+      "duration": 141,
+      "error": null
+    },
+    {
+      "suite": "Survey API - Reports",
+      "name": "POST /api/survey/:id/generate-report - Generate report by survey ID",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Survey API - Reports",
+      "name": "POST /api/survey/:id/generate-report - With batch_id",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Survey API - Content Generation",
+      "name": "POST /api/survey/:id/generate-article - Generate content article",
+      "status": "passed",
+      "duration": 172,
+      "error": null
+    },
+    {
+      "suite": "Survey API - Content Generation",
+      "name": "POST /api/survey/:id/generate-article - Missing account_id should fail",
+      "status": "passed",
+      "duration": 160,
+      "error": null
+    },
+    {
+      "suite": "Survey API - Edge Cases",
+      "name": "POST /api/survey/generate - Negative question_count should fail",
+      "status": "passed",
+      "duration": 147,
+      "error": null
+    },
+    {
+      "suite": "Survey API - Edge Cases",
+      "name": "GET /api/survey/non-existent-id/statistics - Non-existent survey",
+      "status": "failed",
+      "duration": 206,
+      "error": "Non-existent survey should return 404 (got 200)"
+    },
+    {
+      "suite": "Audience API - Analysis (Legacy)",
+      "name": "POST /api/audience/analyze - Analyze audience (deprecated)",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Audience API - Async Generation",
+      "name": "POST /api/audience/generate-async - Async generate audience",
+      "status": "failed",
+      "duration": 138,
+      "error": "Async generate audience should handle request"
+    },
+    {
+      "suite": "Audience API - Async Generation",
+      "name": "POST /api/audience/generate-async - Missing product_description should fail",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Audience API - Async Generation",
+      "name": "POST /api/audience/generate-async - Missing account_id should fail",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Audience API - Async Generation",
+      "name": "POST /api/audience/generate-async - Invalid segment_count should fail",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Audience API - Personality Analysis",
+      "name": "POST /api/personality/analyze - Analyze audience personality",
+      "status": "passed",
+      "duration": 137,
+      "error": null
+    },
+    {
+      "suite": "Audience API - Personality Analysis",
+      "name": "POST /api/personality/analyze - Missing audience_id should fail",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Audience API - Full Analysis Flow",
+      "name": "POST /api/analysis/full - Complete analysis pipeline",
+      "status": "failed",
+      "duration": 138,
+      "error": "Full analysis should handle request"
+    },
+    {
+      "suite": "Audience API - Full Analysis Flow",
+      "name": "POST /api/analysis/full - Missing user_input should fail",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Audience API - Full Analysis Flow",
+      "name": "POST /api/analysis/full - Missing account_id should fail",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Audience API - Intent Analysis",
+      "name": "POST /api/intent-analysis - Query intent analysis data",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Audience API - Intent Analysis",
+      "name": "POST /api/intent-analysis - Missing account_id should fail",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Audience API - Update Operations",
+      "name": "POST /api/audience/:id/update - Update audience and regenerate",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Audience API - Update Operations",
+      "name": "POST /api/audience/:id/update - Missing account_id should fail",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Audience API - Update Operations",
+      "name": "POST /api/audience/:id/update - With regenerate_personality=false",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Audience API - Update Operations",
+      "name": "POST /api/audience/non-existent/update - Non-existent audience",
+      "status": "passed",
+      "duration": 137,
+      "error": null
+    },
+    {
+      "suite": "Audience API - Edge Cases",
+      "name": "POST /api/audience/generate-async - Negative segment_count",
+      "status": "passed",
+      "duration": 138,
+      "error": null
+    },
+    {
+      "suite": "Audience API - Edge Cases",
+      "name": "POST /api/analysis/full - Very large segment_count",
+      "status": "failed",
+      "duration": 139,
+      "error": "Very large segment_count should be handled"
+    },
+    {
+      "suite": "Workflow - Authentication",
+      "name": "Login and get account_id",
+      "status": "failed",
+      "duration": 0,
+      "error": "No credentials or JWT token configured"
+    },
+    {
+      "suite": "Workflow - Audience Generation Pipeline",
+      "name": "Step 1: Create task",
+      "status": "passed",
+      "duration": 182,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Audience Generation Pipeline",
+      "name": "Step 2: Execute intent analysis",
+      "status": "passed",
+      "duration": 250,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Audience Generation Pipeline",
+      "name": "Step 3: Generate personas",
+      "status": "passed",
+      "duration": 331,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Audience Generation Pipeline",
+      "name": "Step 4: Query task progress",
+      "status": "passed",
+      "duration": 2037,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Audience Generation Pipeline",
+      "name": "Step 5: Analyze resume state",
+      "status": "passed",
+      "duration": 4069,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Focus Group Pipeline",
+      "name": "Step 1: Create focus group",
+      "status": "passed",
+      "duration": 156,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Focus Group Pipeline",
+      "name": "Step 2: List focus groups",
+      "status": "passed",
+      "duration": 327,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Focus Group Pipeline",
+      "name": "Step 3: Get focus group details",
+      "status": "passed",
+      "duration": 150,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Focus Group Pipeline",
+      "name": "Step 4: Check questions ready",
+      "status": "passed",
+      "duration": 150,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Focus Group Pipeline",
+      "name": "Step 5: Update focus group",
+      "status": "passed",
+      "duration": 152,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Vector Search Pipeline",
+      "name": "Step 1: Check vector health",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Vector Search Pipeline",
+      "name": "Step 2: Get vector stats",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Vector Search Pipeline",
+      "name": "Step 3: Semantic search",
+      "status": "passed",
+      "duration": 1060,
+      "error": null
+    },
+    {
+      "suite": "Workflow - Vector Search Pipeline",
+      "name": "Step 4: Similarity search (using previous result)",
+      "status": "passed",
+      "duration": 0,
+      "error": null
+    }
+  ]
+}

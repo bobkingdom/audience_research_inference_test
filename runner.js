@@ -25,6 +25,11 @@ import runAvatarTests from './tests/avatar.test.js';
 import runAsyncSurveyTests from './tests/async-survey.test.js';
 import runContentGenerationTests from './tests/content-generation.test.js';
 import runWorkflowTests from './tests/workflow.test.js';
+// New V2 modules
+import runChatTests from './tests/chat.test.js';
+import runTaskTests from './tests/tasks.test.js';
+import runSurveyTests from './tests/survey.test.js';
+import runAudienceTests from './tests/audience.test.js';
 
 // Import auth helpers
 import { login, getToken } from './lib/auth.js';
@@ -37,6 +42,12 @@ const TEST_MODULES = {
   avatar: { name: 'Avatar API', fn: runAvatarTests },
   'async-survey': { name: 'Async Survey API', fn: runAsyncSurveyTests },
   'content-generation': { name: 'Content Generation API', fn: runContentGenerationTests },
+  // New V2 modules
+  chat: { name: 'Chat Management API', fn: runChatTests },
+  tasks: { name: 'Task Management API', fn: runTaskTests },
+  survey: { name: 'Survey Management API', fn: runSurveyTests },
+  audience: { name: 'Audience Management API', fn: runAudienceTests },
+  // Keep workflow at the end
   workflow: { name: 'Workflow Tests (Chained)', fn: runWorkflowTests },
 };
 

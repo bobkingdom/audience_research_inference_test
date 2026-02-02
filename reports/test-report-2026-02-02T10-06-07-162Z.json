@@ -1,0 +1,178 @@
+{
+  "timestamp": "2026-02-02T10:06:07.162Z",
+  "duration": "7.87s",
+  "config": {
+    "baseUrl": "https://ext.survy.ai",
+    "testAccountId": 12
+  },
+  "summary": {
+    "total": 23,
+    "passed": 21,
+    "failed": 2,
+    "skipped": 0,
+    "passRate": "91.3%"
+  },
+  "tests": [
+    {
+      "suite": "Health Check - /inference/health",
+      "name": "GET /inference/health - Should return healthy status",
+      "status": "passed",
+      "duration": 507,
+      "error": null
+    },
+    {
+      "suite": "Health Check - /inference/health",
+      "name": "GET /inference/health - Response time should be < 5s",
+      "status": "passed",
+      "duration": 394,
+      "error": null
+    },
+    {
+      "suite": "Health Check - /inference/health",
+      "name": "GET /inference/health - Should work without auth",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Ready Check - /inference/ready",
+      "name": "GET /inference/ready - Should return ready status",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Ready Check - /inference/ready",
+      "name": "GET /inference/ready - Response time should be < 5s",
+      "status": "passed",
+      "duration": 139,
+      "error": null
+    },
+    {
+      "suite": "Vector Health - /api/v1/vector/health",
+      "name": "GET /api/v1/vector/health - Should return vector service status",
+      "status": "passed",
+      "duration": 144,
+      "error": null
+    },
+    {
+      "suite": "Vector Health - /api/v1/vector/health",
+      "name": "GET /api/v1/vector/health - Should include service details",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Avatar Health - /api/avatars/health",
+      "name": "GET /api/avatars/health - Should return avatar service status",
+      "status": "passed",
+      "duration": 146,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Health & Stats",
+      "name": "GET /api/v1/vector/health - Vector service health",
+      "status": "passed",
+      "duration": 164,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Health & Stats",
+      "name": "GET /api/v1/vector/stats - Vector statistics",
+      "status": "passed",
+      "duration": 142,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Health & Stats",
+      "name": "POST /api/v1/vector/stats/account - Account vector stats",
+      "status": "passed",
+      "duration": 163,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Health & Stats",
+      "name": "POST /api/v1/vector/stats/account - Missing account_id should fail",
+      "status": "passed",
+      "duration": 141,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Health & Stats",
+      "name": "POST /api/v1/vector/stats/task - Task vector stats",
+      "status": "failed",
+      "duration": 140,
+      "error": "Task stats should handle request"
+    },
+    {
+      "suite": "Vector API - Health & Stats",
+      "name": "POST /api/v1/vector/stats/distribution - Vector distribution",
+      "status": "passed",
+      "duration": 306,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Semantic Search",
+      "name": "POST /search/semantic - Valid semantic search",
+      "status": "passed",
+      "duration": 2570,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Semantic Search",
+      "name": "POST /search/semantic - Empty query should fail",
+      "status": "passed",
+      "duration": 142,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Semantic Search",
+      "name": "POST /search/semantic - Missing account_id should fail",
+      "status": "failed",
+      "duration": 555,
+      "error": "Missing account_id should be rejected"
+    },
+    {
+      "suite": "Vector API - Semantic Search",
+      "name": "POST /search/semantic - With filters",
+      "status": "passed",
+      "duration": 715,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Similarity Search",
+      "name": "POST /search/similar - Valid similarity search",
+      "status": "passed",
+      "duration": 148,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Similarity Search",
+      "name": "POST /search/similar - Missing audience_id should fail",
+      "status": "passed",
+      "duration": 142,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Multimodal Search",
+      "name": "POST /search/multimodal - Text-only multimodal search",
+      "status": "passed",
+      "duration": 498,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Multimodal Search",
+      "name": "POST /search/multimodal - Empty text_query should fail",
+      "status": "passed",
+      "duration": 140,
+      "error": null
+    },
+    {
+      "suite": "Vector API - Index Management",
+      "name": "POST /reload-index - Reload vector index",
+      "status": "passed",
+      "duration": 153,
+      "error": null
+    }
+  ]
+}

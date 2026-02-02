@@ -961,6 +961,334 @@
           }
         }
       ]
+    },
+    {
+      "name": "聊天管理 (/api/chat)",
+      "item": [
+        {
+          "name": "发送聊天消息",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/chat/sessions/123/messages",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"你好，请介绍一下你自己\",\n  \"message_type\": \"text\",\n  \"account_id\": 1,\n  \"engine\": \"S\"\n}"
+            }
+          }
+        },
+        {
+          "name": "批量创建聊天会话",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/chat/sessions/batch",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"audience_ids\": [1, 2, 3],\n  \"account_id\": 1,\n  \"topic\": \"护肤品使用体验\",\n  \"engine\": \"S\"\n}"
+            }
+          }
+        },
+        {
+          "name": "结束聊天会话",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/chat/sessions/123/end",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": 1,\n  \"audience_id\": \"user_12345\",\n  \"generate_summary\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "基于参与者ID生成访谈问题",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/chat/interview-questions/by-participant",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"participant_id\": 456,\n  \"topic\": \"护肤品购买决策\",\n  \"background\": \"年轻女性护肤市场研究\",\n  \"force_regenerate\": false,\n  \"provider\": \"anthropic\"\n}"
+            }
+          }
+        },
+        {
+          "name": "生成访谈问题",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/chat/interview-questions",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"session_id\": \"session-uuid\",\n  \"audience_id\": \"user_12345\",\n  \"account_id\": 1,\n  \"topic\": \"护肤品购买决策\",\n  \"background\": \"年轻女性护肤市场研究\",\n  \"force_regenerate\": false,\n  \"provider\": \"anthropic\"\n}"
+            }
+          }
+        },
+        {
+          "name": "获取已生成的访谈问题",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/chat/sessions/123/interview-questions?audience_id=user_12345&account_id=1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "问卷管理 (/api/survey)",
+      "item": [
+        {
+          "name": "生成问卷",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/survey/generate",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"survey_requirements\": \"了解年轻女性对护肤品的购买偏好和使用习惯\",\n  \"question_count\": 5,\n  \"save_to_db\": true,\n  \"generate_responses\": false,\n  \"account_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "投放问卷生成回答",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/survey/generate-responses",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"survey_id\": 123,\n  \"segments_ids\": [1, 2],\n  \"audience_ids\": [1, 2, 3],\n  \"response_mode\": \"concise\",\n  \"model_provider\": \"openrouter\",\n  \"account_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "获取问卷统计数据",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/survey/123/statistics",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"include_raw_data\": true,\n  \"include_questions_stats\": true,\n  \"include_segments_data\": true,\n  \"include_reason\": true,\n  \"force_regenerate\": false,\n  \"batch_id\": null\n}"
+            }
+          }
+        },
+        {
+          "name": "生成问卷报告（通用）",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/survey/generate-report",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"responses_file\": \"output/responses_123.json\",\n  \"survey_title\": \"护肤品用户研究报告\",\n  \"upload_to_cloud\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "按问卷ID生成报告",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/survey/123/generate-report",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"upload_to_cloud\": true,\n  \"force_regenerate\": false,\n  \"batch_id\": null\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "任务管理 (/api/tasks)",
+      "item": [
+        {
+          "name": "获取任务信息",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/tasks/123"
+          }
+        },
+        {
+          "name": "获取任务结果",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/tasks/123/result"
+          }
+        },
+        {
+          "name": "获取任务受众数据",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/tasks/123/audiences"
+          }
+        },
+        {
+          "name": "重试失败的问卷回答",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/tasks/123/retry-failed-responses",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": 123,\n  \"response_mode\": \"concise\",\n  \"model_provider\": \"openrouter\"\n}"
+            }
+          }
+        },
+        {
+          "name": "重试失败的受众生成",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/tasks/123/retry-failed-audience-generation",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": 123,\n  \"resume_from\": \"failed\",\n  \"model_provider\": \"openrouter\"\n}"
+            }
+          }
+        },
+        {
+          "name": "从问卷生成阶段恢复任务",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/tasks/123/resume-from-survey",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model_provider\": \"openrouter\",\n  \"response_mode\": \"concise\",\n  \"generate_responses\": true,\n  \"question_count\": 5\n}"
+            }
+          }
+        },
+        {
+          "name": "恢复中断的任务",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/tasks/123/resume",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"response_mode\": \"concise\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "受众管理 (/api)",
+      "item": [
+        {
+          "name": "分析受众（已弃用）",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/audience/analyze",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_description\": \"面向年轻女性的高端护肤品\",\n  \"market_context\": \"中国美妆市场\",\n  \"segment_count\": 3,\n  \"user_count\": 5,\n  \"account_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "异步生成受众",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/audience/generate-async",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_description\": \"面向年轻女性的高端护肤品\",\n  \"market_context\": \"中国美妆市场\",\n  \"segment_count\": 3,\n  \"user_count\": 5,\n  \"target_continent\": \"Asia\",\n  \"account_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "分析受众人格",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/personality/analyze",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"audience_id\": \"user_12345\"\n}"
+            }
+          }
+        },
+        {
+          "name": "完整分析流程",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/analysis/full",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_input\": \"面向年轻女性的护肤品\",\n  \"segment_count\": 3,\n  \"audience_count\": 5,\n  \"generate_survey\": false,\n  \"question_count\": 5,\n  \"generate_responses\": false,\n  \"response_mode\": \"concise\",\n  \"skip_db_save\": false,\n  \"target_continent\": \"Asia\",\n  \"account_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "查询意图分析数据",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/intent-analysis",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account_id\": 1,\n  \"audience_task_id\": 123\n}"
+            }
+          }
+        },
+        {
+          "name": "更新受众并重新生成人格",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/audience/user_12345/update",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"张三\",\n  \"age\": 28,\n  \"avatar\": \"https://report.survy.ai/chat/images/chat_15202510131517220e9fa3fc.jpg\",\n  \"location\": \"北京市\",\n  \"education\": \"本科\",\n  \"regenerate_personality\": true,\n  \"ai_provider\": \"anthropic\",\n  \"account_id\": 1\n}"
+            }
+          }
+        }
+      ]
     }
   ]
 }

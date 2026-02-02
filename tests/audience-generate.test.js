@@ -13,6 +13,9 @@ import config from '../config/default.js';
 
 export async function runAudienceGenerateTests() {
   const { testAccountId, testData, timeout } = config;
+  
+  // Shared state across test suites
+  let createdTaskId = null;
 
   // ═══════════════════════════════════════════════════════════════════
   // Intent Analysis
@@ -150,8 +153,6 @@ export async function runAudienceGenerateTests() {
   // Task Management
   // ═══════════════════════════════════════════════════════════════════
   await describe('Audience Generate - Task Management', async () => {
-    let createdTaskId = null;
-
     await test('POST /task/create - Create new task', async () => {
       // Arrange
       const body = {
@@ -238,6 +239,108 @@ export async function runAudienceGenerateTests() {
       if (createdTaskId) {
         assert.httpOk(response, 'Analyze resume should succeed');
       }
+    });
+  });
+
+  // ═══════════════════════════════════════════════════════════════════
+  // Task Step Execution (New in V2)
+  // ═══════════════════════════════════════════════════════════════════
+  await describe('Audience Generate - Task Step Execution', async () => {
+    await test('POST /task/:id/intent - Execute task intent analysis', async () => {
+      // Arrange
+      const taskId = createdTaskId || '123';
+      const body = {
+        user_input: testData.userInput
+      };
+      
+      // Act
+      const response = await client.post(`/api/v1/audience-generate/task/${taskId}/intent`, body, {
+        timeout: timeout.long
+      });
+      
+      // Assert
+      if (createdTaskId) {
+        assert.httpOk(response, 'Task intent analysis should succeed');
+      } else {
+        assert.ok([200, 404].includes(response.status), 'Task intent should handle request');
+      }
+    });
+
+    await test('POST /task/:id/intent - Missing user_input should fail', async () => {
+      // Arrange
+      const taskId = createdTaskId || '123';
+      const body = {};
+      
+      // Act
+      const response = await client.post(`/api/v1/audience-generate/task/${taskId}/intent`, body);
+      
+      // Assert
+      assert.httpError(response, 'Missing user_input should be rejected');
+    });
+
+    await test('POST /task/:id/personas - Execute task personas generation', async () => {
+      // Arrange
+      const taskId = createdTaskId || '123';
+      const body = {
+        segment_count: 3
+      };
+      
+      // Act
+      const response = await client.post(`/api/v1/audience-generate/task/${taskId}/personas`, body, {
+        timeout: timeout.long
+      });
+      
+      // Assert
+      assert.ok([200, 400, 404, 422].includes(response.status), 'Task personas should handle request');
+    });
+
+    await test('POST /task/:id/audiences - Execute task audience generation', async () => {
+      // Arrange
+      const taskId = createdTaskId || '123';
+      const body = {
+        audience_per_persona: 5,
+        use_parallel: true,
+        num_threads: 5
+      };
+      
+      // Act
+      const response = await client.post(`/api/v1/audience-generate/task/${taskId}/audiences`, body, {
+        timeout: timeout.veryLong
+      });
+      
+      // Assert
+      assert.ok([200, 202, 400, 404, 422].includes(response.status), 'Task audiences should handle request');
+    });
+
+    await test('POST /task/:id/resume - Resume interrupted task', async () => {
+      // Arrange
+      const taskId = createdTaskId || '123';
+      const body = {
+        resume_step: 'audiences',
+        continue_from_failed: true
+      };
+      
+      // Act
+      const response = await client.post(`/api/v1/audience-generate/task/${taskId}/resume`, body, {
+        timeout: timeout.veryLong
+      });
+      
+      // Assert
+      assert.ok([200, 400, 404, 422].includes(response.status), 'Task resume should handle request');
+    });
+
+    await test('POST /task/:id/resume - Invalid resume_step should fail', async () => {
+      // Arrange
+      const taskId = createdTaskId || '123';
+      const body = {
+        resume_step: 'invalid_step'
+      };
+      
+      // Act
+      const response = await client.post(`/api/v1/audience-generate/task/${taskId}/resume`, body);
+      
+      // Assert
+      assert.httpError(response, 'Invalid resume_step should be rejected');
     });
   });
 
@@ -416,6 +519,48 @@ export async function runAudienceGenerateTests() {
         assert.ok([200, 404].includes(response.status), 'Get extraction should return 200 or 404');
       }
     });
+
+    await test('DELETE /interview/extraction/:id - Delete extraction record (New V2)', async () => {
+      // Arrange - use a fake ID to test endpoint behavior
+      const id = 'non-existent-extraction-id';
+      
+      // Act
+      const response = await client.delete(`/api/v1/audience-generate/interview/extraction/${id}`);
+      
+      // Assert
+      assert.ok([200, 204, 404].includes(response.status), 'Delete extraction should handle request');
+    });
+
+    await test('POST /interview/extraction-to-audience - Convert to audience (New V2)', async () => {
+      // Arrange
+      const body = {
+        extraction_id: extractionId || 123,
+        account_id: testAccountId,
+        audience_task_id: 456
+      };
+      
+      // Act
+      const response = await client.post('/api/v1/audience-generate/interview/extraction-to-audience', body, {
+        timeout: timeout.long
+      });
+      
+      // Assert
+      assert.ok([200, 400, 404, 422].includes(response.status), 'Extraction to audience should handle request');
+    });
+
+    await test('POST /interview/extraction-to-audience - Missing extraction_id should fail', async () => {
+      // Arrange
+      const body = {
+        account_id: testAccountId,
+        audience_task_id: 456
+      };
+      
+      // Act
+      const response = await client.post('/api/v1/audience-generate/interview/extraction-to-audience', body);
+      
+      // Assert
+      assert.httpError(response, 'Missing extraction_id should be rejected');
+    });
   });
 
   // ═══════════════════════════════════════════════════════════════════
@@ -451,6 +596,37 @@ export async function runAudienceGenerateTests() {
       
       // Assert
       assert.httpError(response, 'Empty audience_ids should be rejected');
+    });
+
+    await test('POST /batch-pregenerate-prompt - Pre-generate prompts (New V2)', async () => {
+      // Arrange
+      const body = {
+        task_id: 123,
+        batch_size: 10,
+        dry_run: true
+      };
+      
+      // Act
+      const response = await client.post('/api/v1/audience-generate/batch-pregenerate-prompt', body, {
+        timeout: timeout.long
+      });
+      
+      // Assert
+      assert.ok([200, 400, 404, 422].includes(response.status), 'Batch pregenerate prompt should handle request');
+    });
+
+    await test('POST /batch-pregenerate-prompt - Missing task_id should fail', async () => {
+      // Arrange
+      const body = {
+        batch_size: 10,
+        dry_run: true
+      };
+      
+      // Act
+      const response = await client.post('/api/v1/audience-generate/batch-pregenerate-prompt', body);
+      
+      // Assert
+      assert.httpError(response, 'Missing task_id should be rejected');
     });
 
     await test('POST /segments/audiences - Generate audiences from segments', async () => {

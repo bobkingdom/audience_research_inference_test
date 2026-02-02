@@ -1,94 +1,338 @@
 /**
- * Audience Generation API Tests
+ * Audience Management API Tests
+ * Endpoints: /api/audience/*, /api/personality/*, /api/analysis/*
+ * 
+ * Updated for V2: Comprehensive audience management operations
  */
 import { client } from '../lib/client.js';
 import { describe, test, assert, random } from '../lib/utils.js';
 import config from '../config/default.js';
 
-const state = { taskId: null, segmentId: null, audienceId: null };
-
 export async function runAudienceTests() {
-  await describe('Audience Generation - Intent Analysis', async () => {
-    await test('POST /intent-analysis - Valid input should return intent', async () => {
-      const body = { user_input: config.testData.userInput };
-      const response = await client.post('/api/v1/audience-generate/intent-analysis', body);
-      assert.httpOk(response, 'Intent analysis should succeed');
-    });
+  const { testAccountId, testData, timeout } = config;
 
-    await test('POST /intent-analysis - Empty input should fail', async () => {
-      const body = { user_input: '' };
-      const response = await client.post('/api/v1/audience-generate/intent-analysis', body);
-      assert.httpError(response, 'Empty input should be rejected');
-    });
-
-    await test('POST /intent-analysis - Missing user_input should fail', async () => {
-      const response = await client.post('/api/v1/audience-generate/intent-analysis', {});
-      assert.httpError(response, 'Missing user_input should be rejected');
-    });
-  });
-
-  await describe('Audience Generation - Personas', async () => {
-    await test('POST /personas - Valid input should generate personas', async () => {
-      const body = { user_input: config.testData.userInput, segment_count: config.testData.segmentCount };
-      const response = await client.post('/api/v1/audience-generate/personas', body, { timeout: config.timeout.long });
-      assert.httpOk(response, 'Persona generation should succeed');
-    });
-
-    await test('POST /personas - segment_count=0 should fail', async () => {
-      const body = { user_input: config.testData.userInput, segment_count: 0 };
-      const response = await client.post('/api/v1/audience-generate/personas', body);
-      assert.httpError(response, 'Zero segment_count should be rejected');
+  // ═══════════════════════════════════════════════════════════════════
+  // Audience Analysis (Legacy - may be deprecated)
+  // ═══════════════════════════════════════════════════════════════════
+  await describe('Audience API - Analysis (Legacy)', async () => {
+    await test('POST /api/audience/analyze - Analyze audience (deprecated)', async () => {
+      // Arrange
+      const body = {
+        product_description: testData.productDescription,
+        market_context: '中国美妆市场',
+        segment_count: 3,
+        user_count: 5,
+        account_id: testAccountId
+      };
+      
+      // Act
+      const response = await client.post('/api/audience/analyze', body, {
+        timeout: timeout.veryLong
+      });
+      
+      // Assert - may be deprecated, accept various status codes
+      assert.ok([200, 400, 404, 410, 422].includes(response.status), 'Audience analyze should handle request');
     });
   });
 
-  await describe('Audience Generation - Task Management', async () => {
-    await test('POST /task/create - Create new task', async () => {
-      const body = { account_id: config.testAccountId, task_name: `Test Task ${random.string(8)}`, user_input: config.testData.userInput };
-      const response = await client.post('/api/v1/audience-generate/task/create', body);
-      assert.httpOk(response, 'Task creation should succeed');
-      if (response.data?.task_id || response.data?.id) state.taskId = response.data.task_id || response.data.id;
+  // ═══════════════════════════════════════════════════════════════════
+  // Async Audience Generation
+  // ═══════════════════════════════════════════════════════════════════
+  await describe('Audience API - Async Generation', async () => {
+    await test('POST /api/audience/generate-async - Async generate audience', async () => {
+      // Arrange
+      const body = {
+        product_description: testData.productDescription,
+        market_context: '中国美妆市场',
+        segment_count: 3,
+        user_count: 5,
+        target_continent: 'Asia',
+        account_id: testAccountId
+      };
+      
+      // Act
+      const response = await client.post('/api/audience/generate-async', body, {
+        timeout: timeout.long
+      });
+      
+      // Assert
+      assert.ok([200, 202, 400, 422].includes(response.status), 'Async generate audience should handle request');
     });
 
-    await test('POST /task/create - Missing account_id should fail', async () => {
-      const body = { task_name: 'Test Task', user_input: config.testData.userInput };
-      const response = await client.post('/api/v1/audience-generate/task/create', body);
+    await test('POST /api/audience/generate-async - Missing product_description should fail', async () => {
+      // Arrange
+      const body = {
+        market_context: '中国美妆市场',
+        segment_count: 3,
+        account_id: testAccountId
+      };
+      
+      // Act
+      const response = await client.post('/api/audience/generate-async', body);
+      
+      // Assert
+      assert.httpError(response, 'Missing product_description should be rejected');
+    });
+
+    await test('POST /api/audience/generate-async - Missing account_id should fail', async () => {
+      // Arrange
+      const body = {
+        product_description: testData.productDescription,
+        segment_count: 3
+      };
+      
+      // Act
+      const response = await client.post('/api/audience/generate-async', body);
+      
+      // Assert
       assert.httpError(response, 'Missing account_id should be rejected');
     });
 
-    await test('GET /task/:id - Non-existent task should return 404', async () => {
-      const response = await client.get('/api/v1/audience-generate/task/999999999');
-      assert.httpStatus(response, 404, 'Non-existent task should return 404');
-    });
-  });
-
-  await describe('Audience Generation - Segments & Audiences', async () => {
-    await test('POST /segment/rename - Rename segment', async () => {
-      const body = { segment_id: 1327, generate_language: 'Chinese', async_mode: false, update_db: false };
-      const response = await client.post('/api/v1/audience-generate/segment/rename', body, { timeout: config.timeout.long });
-      assert.ok([200, 404].includes(response.status), 'Should handle segment rename');
-    });
-
-    await test('POST /audience/insight - Get audience insight', async () => {
-      const body = { audience_id: 12345, insight_type: 'comprehensive' };
-      const response = await client.post('/api/v1/audience-generate/audience/insight', body, { timeout: config.timeout.long });
-      assert.ok([200, 404].includes(response.status), 'Should handle insight request');
-    });
-  });
-
-  await describe('Audience Generation - Interview Extraction', async () => {
-    await test('POST /interview/extract - Extract from interview', async () => {
+    await test('POST /api/audience/generate-async - Invalid segment_count should fail', async () => {
+      // Arrange
       const body = {
-        interview_transcript: '这是一段测试访谈内容...',
-        account_id: config.testAccountId,
-        product_info: { category: '护肤品', name: config.testData.productName },
+        product_description: testData.productDescription,
+        segment_count: 0,
+        account_id: testAccountId
       };
-      const response = await client.post('/api/v1/audience-generate/interview/extract', body, { timeout: config.timeout.long });
-      assert.ok([200, 400].includes(response.status), 'Should handle interview extraction');
+      
+      // Act
+      const response = await client.post('/api/audience/generate-async', body);
+      
+      // Assert
+      assert.httpError(response, 'Invalid segment_count should be rejected');
+    });
+  });
+
+  // ═══════════════════════════════════════════════════════════════════
+  // Personality Analysis
+  // ═══════════════════════════════════════════════════════════════════
+  await describe('Audience API - Personality Analysis', async () => {
+    await test('POST /api/personality/analyze - Analyze audience personality', async () => {
+      // Arrange
+      const body = {
+        audience_id: 'user_12345'
+      };
+      
+      // Act
+      const response = await client.post('/api/personality/analyze', body, {
+        timeout: timeout.long
+      });
+      
+      // Assert
+      assert.ok([200, 400, 404, 422].includes(response.status), 'Personality analyze should handle request');
     });
 
-    await test('GET /interview/extractions - List extractions', async () => {
-      const response = await client.get(`/api/v1/audience-generate/interview/extractions?account_id=${config.testAccountId}&page=1&page_size=20`);
-      assert.httpOk(response, 'Should list extractions');
+    await test('POST /api/personality/analyze - Missing audience_id should fail', async () => {
+      // Arrange
+      const body = {};
+      
+      // Act
+      const response = await client.post('/api/personality/analyze', body);
+      
+      // Assert
+      assert.httpError(response, 'Missing audience_id should be rejected');
+    });
+  });
+
+  // ═══════════════════════════════════════════════════════════════════
+  // Full Analysis Flow
+  // ═══════════════════════════════════════════════════════════════════
+  await describe('Audience API - Full Analysis Flow', async () => {
+    await test('POST /api/analysis/full - Complete analysis pipeline', async () => {
+      // Arrange
+      const body = {
+        user_input: testData.userInput,
+        segment_count: 2,
+        audience_count: 3,
+        generate_survey: false,
+        question_count: 5,
+        generate_responses: false,
+        response_mode: 'concise',
+        skip_db_save: true,
+        target_continent: 'Asia',
+        account_id: testAccountId
+      };
+      
+      // Act
+      const response = await client.post('/api/analysis/full', body, {
+        timeout: timeout.veryLong
+      });
+      
+      // Assert
+      assert.ok([200, 202, 400, 422].includes(response.status), 'Full analysis should handle request');
+    });
+
+    await test('POST /api/analysis/full - Missing user_input should fail', async () => {
+      // Arrange
+      const body = {
+        segment_count: 2,
+        audience_count: 3,
+        account_id: testAccountId
+      };
+      
+      // Act
+      const response = await client.post('/api/analysis/full', body);
+      
+      // Assert
+      assert.httpError(response, 'Missing user_input should be rejected');
+    });
+
+    await test('POST /api/analysis/full - Missing account_id should fail', async () => {
+      // Arrange
+      const body = {
+        user_input: testData.userInput,
+        segment_count: 2
+      };
+      
+      // Act
+      const response = await client.post('/api/analysis/full', body);
+      
+      // Assert
+      assert.httpError(response, 'Missing account_id should be rejected');
+    });
+  });
+
+  // ═══════════════════════════════════════════════════════════════════
+  // Intent Analysis Query
+  // ═══════════════════════════════════════════════════════════════════
+  await describe('Audience API - Intent Analysis', async () => {
+    await test('POST /api/intent-analysis - Query intent analysis data', async () => {
+      // Arrange
+      const body = {
+        account_id: testAccountId,
+        audience_task_id: 123
+      };
+      
+      // Act
+      const response = await client.post('/api/intent-analysis', body);
+      
+      // Assert
+      assert.ok([200, 404].includes(response.status), 'Intent analysis query should handle request');
+    });
+
+    await test('POST /api/intent-analysis - Missing account_id should fail', async () => {
+      // Arrange
+      const body = {
+        audience_task_id: 123
+      };
+      
+      // Act
+      const response = await client.post('/api/intent-analysis', body);
+      
+      // Assert
+      assert.httpError(response, 'Missing account_id should be rejected');
+    });
+  });
+
+  // ═══════════════════════════════════════════════════════════════════
+  // Audience Update
+  // ═══════════════════════════════════════════════════════════════════
+  await describe('Audience API - Update Operations', async () => {
+    await test('POST /api/audience/:id/update - Update audience and regenerate', async () => {
+      // Arrange
+      const audienceId = 'user_12345';
+      const body = {
+        name: '张三',
+        age: 28,
+        avatar: 'https://report.survy.ai/chat/images/chat_15202510131517220e9fa3fc.jpg',
+        location: '北京市',
+        education: '本科',
+        regenerate_personality: true,
+        ai_provider: 'anthropic',
+        account_id: testAccountId
+      };
+      
+      // Act
+      const response = await client.post(`/api/audience/${audienceId}/update`, body, {
+        timeout: timeout.long
+      });
+      
+      // Assert
+      assert.ok([200, 400, 404, 422].includes(response.status), 'Update audience should handle request');
+    });
+
+    await test('POST /api/audience/:id/update - Missing account_id should fail', async () => {
+      // Arrange
+      const audienceId = 'user_12345';
+      const body = {
+        name: '张三',
+        age: 28
+      };
+      
+      // Act
+      const response = await client.post(`/api/audience/${audienceId}/update`, body);
+      
+      // Assert
+      assert.httpError(response, 'Missing account_id should be rejected');
+    });
+
+    await test('POST /api/audience/:id/update - With regenerate_personality=false', async () => {
+      // Arrange
+      const audienceId = 'user_12345';
+      const body = {
+        name: '李四',
+        age: 30,
+        regenerate_personality: false,
+        account_id: testAccountId
+      };
+      
+      // Act
+      const response = await client.post(`/api/audience/${audienceId}/update`, body);
+      
+      // Assert
+      assert.ok([200, 400, 404, 422].includes(response.status), 'Update without regenerate should handle request');
+    });
+
+    await test('POST /api/audience/non-existent/update - Non-existent audience', async () => {
+      // Arrange
+      const audienceId = 'non-existent-audience-99999';
+      const body = {
+        name: '测试',
+        account_id: testAccountId
+      };
+      
+      // Act
+      const response = await client.post(`/api/audience/${audienceId}/update`, body);
+      
+      // Assert
+      assert.http404(response, 'Non-existent audience should return 404');
+    });
+  });
+
+  // ═══════════════════════════════════════════════════════════════════
+  // Edge Cases
+  // ═══════════════════════════════════════════════════════════════════
+  await describe('Audience API - Edge Cases', async () => {
+    await test('POST /api/audience/generate-async - Negative segment_count', async () => {
+      // Arrange
+      const body = {
+        product_description: testData.productDescription,
+        segment_count: -1,
+        account_id: testAccountId
+      };
+      
+      // Act
+      const response = await client.post('/api/audience/generate-async', body);
+      
+      // Assert
+      assert.httpError(response, 'Negative segment_count should be rejected');
+    });
+
+    await test('POST /api/analysis/full - Very large segment_count', async () => {
+      // Arrange
+      const body = {
+        user_input: testData.userInput,
+        segment_count: 1000,
+        audience_count: 1000,
+        account_id: testAccountId
+      };
+      
+      // Act
+      const response = await client.post('/api/analysis/full', body);
+      
+      // Assert
+      assert.ok([200, 400, 422].includes(response.status), 'Very large segment_count should be handled');
     });
   });
 }
