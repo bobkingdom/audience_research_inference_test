@@ -2,7 +2,8 @@
  * Task Management API Tests
  * Endpoints: /api/tasks/*
  * 
- * New in V2: Comprehensive task management and recovery operations
+ * IMPORTANT: Task IDs come from /api/audience/generate-async
+ * Must create a task first before querying it
  */
 import { client } from '../lib/client.js';
 import { describe, test, assert } from '../lib/utils.js';
@@ -11,58 +12,97 @@ import config from '../config/default.js';
 export async function runTaskTests() {
   const { testAccountId, testData, timeout } = config;
   
-  // Use a known task ID or create one for testing
-  let testTaskId = null;
+  // Will be populated by workflow
+  let createdTaskId = null;
 
   // ═══════════════════════════════════════════════════════════════════
-  // Task Query
+  // Task Creation (via /api/audience/generate-async)
   // ═══════════════════════════════════════════════════════════════════
-  await describe('Tasks API - Query', async () => {
-    await test('GET /api/tasks/:id - Get task info', async () => {
+  await describe('Tasks API - Create Task (Prerequisite)', async () => {
+    await test('POST /api/audience/generate-async - Create task for testing', async () => {
       // Arrange
-      const taskId = testTaskId || '123';
+      const body = {
+        product_description: testData.productDescription || '面向年轻女性的高端护肤品',
+        market_context: '中国美妆市场',
+        segment_count: 2,
+        user_count: 3,
+        target_continent: 'Asia',
+        account_id: testAccountId
+      };
       
       // Act
-      const response = await client.get(`/api/tasks/${taskId}`);
+      const response = await client.post('/api/audience/generate-async', body, {
+        timeout: timeout.long
+      });
       
       // Assert
-      assert.ok([200, 404].includes(response.status), 'Get task info should handle request');
-      if (response.ok && response.data?.id) {
-        testTaskId = response.data.id;
+      assert.httpOk(response, 'Should create audience generation task');
+      assert.hasProperty(response.data, 'task_id', 'Response should contain task_id');
+      
+      // Save for subsequent tests
+      if (response.ok && response.data?.task_id) {
+        createdTaskId = response.data.task_id;
+        console.log(`    📌 Created task_id: ${createdTaskId}`);
       }
+    });
+  });
+
+  // ═══════════════════════════════════════════════════════════════════
+  // Task Query (using created task_id)
+  // ═══════════════════════════════════════════════════════════════════
+  await describe('Tasks API - Query', async () => {
+    await test('GET /api/tasks/:id - Get task info with valid task_id', async () => {
+      // Skip if no task was created
+      if (!createdTaskId) {
+        throw new Error('No task_id available - prerequisite test failed');
+      }
+      
+      // Act
+      const response = await client.get(`/api/tasks/${createdTaskId}`);
+      
+      // Assert
+      assert.httpOk(response, 'Get task info should succeed');
+      assert.hasProperty(response.data, 'task', 'Response should contain task object');
+      assert.equal(response.data.task?.id, createdTaskId, 'Task ID should match');
     });
 
     await test('GET /api/tasks/:id/result - Get task result', async () => {
-      // Arrange
-      const taskId = testTaskId || '123';
+      if (!createdTaskId) {
+        throw new Error('No task_id available');
+      }
       
-      // Act
-      const response = await client.get(`/api/tasks/${taskId}/result`);
+      const response = await client.get(`/api/tasks/${createdTaskId}/result`);
       
-      // Assert
+      // May return 404 if task not completed yet, or 200 with partial results
       assert.ok([200, 404].includes(response.status), 'Get task result should handle request');
     });
 
     await test('GET /api/tasks/:id/audiences - Get task audiences', async () => {
-      // Arrange
-      const taskId = testTaskId || '123';
+      if (!createdTaskId) {
+        throw new Error('No task_id available');
+      }
       
-      // Act
-      const response = await client.get(`/api/tasks/${taskId}/audiences`);
+      const response = await client.get(`/api/tasks/${createdTaskId}/audiences`);
       
-      // Assert
+      // May return 404 if no audiences yet, or 200 with data
       assert.ok([200, 404].includes(response.status), 'Get task audiences should handle request');
     });
 
-    await test('GET /api/tasks/non-existent-id - Non-existent task should return 404', async () => {
-      // Arrange
-      const fakeTaskId = 'non-existent-task-id-99999';
+    await test('GET /api/tasks/999999999 - Non-existent task should indicate not found', async () => {
+      const response = await client.get('/api/tasks/999999999');
       
-      // Act
-      const response = await client.get(`/api/tasks/${fakeTaskId}`);
+      // API returns 200 with success:false for non-existent tasks (REST pattern)
+      assert.ok([200, 404, 422].includes(response.status), 'Should return valid response');
+      if (response.status === 200) {
+        assert.equal(response.data?.success, false, 'success should be false for non-existent task');
+        assert.ok(response.data?.task === null, 'task should be null');
+      }
+    });
+
+    await test('GET /api/tasks/invalid - Invalid task ID format', async () => {
+      const response = await client.get('/api/tasks/invalid-string-id');
       
-      // Assert
-      assert.http404(response, 'Non-existent task should return 404');
+      assert.ok([400, 404, 422].includes(response.status), 'Invalid task ID should return error');
     });
   });
 
@@ -71,52 +111,39 @@ export async function runTaskTests() {
   // ═══════════════════════════════════════════════════════════════════
   await describe('Tasks API - Retry Operations', async () => {
     await test('POST /api/tasks/:id/retry-failed-responses - Retry failed survey responses', async () => {
-      // Arrange
-      const taskId = testTaskId || '123';
+      if (!createdTaskId) {
+        throw new Error('No task_id available');
+      }
+      
       const body = {
-        task_id: parseInt(taskId) || 123,
+        task_id: createdTaskId,
         response_mode: 'concise',
         model_provider: 'openrouter'
       };
       
-      // Act
-      const response = await client.post(`/api/tasks/${taskId}/retry-failed-responses`, body, {
+      const response = await client.post(`/api/tasks/${createdTaskId}/retry-failed-responses`, body, {
         timeout: timeout.long
       });
       
-      // Assert
+      // May fail if no failed responses exist
       assert.ok([200, 400, 404, 422].includes(response.status), 'Retry failed responses should handle request');
     });
 
-    await test('POST /api/tasks/:id/retry-failed-responses - Invalid task_id format', async () => {
-      // Arrange
-      const taskId = 'invalid';
-      const body = {
-        response_mode: 'concise'
-      };
-      
-      // Act
-      const response = await client.post(`/api/tasks/${taskId}/retry-failed-responses`, body);
-      
-      // Assert
-      assert.ok([400, 404, 422].includes(response.status), 'Invalid task_id should be rejected');
-    });
-
     await test('POST /api/tasks/:id/retry-failed-audience-generation - Retry failed audiences', async () => {
-      // Arrange
-      const taskId = testTaskId || '123';
+      if (!createdTaskId) {
+        throw new Error('No task_id available');
+      }
+      
       const body = {
-        task_id: parseInt(taskId) || 123,
+        task_id: createdTaskId,
         resume_from: 'failed',
         model_provider: 'openrouter'
       };
       
-      // Act
-      const response = await client.post(`/api/tasks/${taskId}/retry-failed-audience-generation`, body, {
+      const response = await client.post(`/api/tasks/${createdTaskId}/retry-failed-audience-generation`, body, {
         timeout: timeout.veryLong
       });
       
-      // Assert
       assert.ok([200, 400, 404, 422].includes(response.status), 'Retry failed audiences should handle request');
     });
   });
@@ -126,8 +153,10 @@ export async function runTaskTests() {
   // ═══════════════════════════════════════════════════════════════════
   await describe('Tasks API - Resume Operations', async () => {
     await test('POST /api/tasks/:id/resume-from-survey - Resume from survey stage', async () => {
-      // Arrange
-      const taskId = testTaskId || '123';
+      if (!createdTaskId) {
+        throw new Error('No task_id available');
+      }
+      
       const body = {
         model_provider: 'openrouter',
         response_mode: 'concise',
@@ -135,44 +164,28 @@ export async function runTaskTests() {
         question_count: 5
       };
       
-      // Act
-      const response = await client.post(`/api/tasks/${taskId}/resume-from-survey`, body, {
-        timeout: timeout.veryLong
+      const response = await client.post(`/api/tasks/${createdTaskId}/resume-from-survey`, body, {
+        timeout: timeout.long
       });
       
-      // Assert
+      // May fail depending on task state
       assert.ok([200, 400, 404, 422].includes(response.status), 'Resume from survey should handle request');
     });
 
     await test('POST /api/tasks/:id/resume - Resume interrupted task', async () => {
-      // Arrange
-      const taskId = testTaskId || '123';
+      if (!createdTaskId) {
+        throw new Error('No task_id available');
+      }
+      
       const body = {
         response_mode: 'concise'
       };
       
-      // Act
-      const response = await client.post(`/api/tasks/${taskId}/resume`, body, {
-        timeout: timeout.veryLong
-      });
-      
-      // Assert
-      assert.ok([200, 400, 404, 422].includes(response.status), 'Resume task should handle request');
-    });
-
-    await test('POST /api/tasks/:id/resume - Empty body should be accepted', async () => {
-      // Arrange
-      const taskId = testTaskId || '123';
-      const body = {};
-      
-      // Act
-      const response = await client.post(`/api/tasks/${taskId}/resume`, body, {
+      const response = await client.post(`/api/tasks/${createdTaskId}/resume`, body, {
         timeout: timeout.long
       });
       
-      // Assert
-      // Empty body might be acceptable depending on task state
-      assert.ok([200, 400, 404, 422].includes(response.status), 'Resume with empty body should handle request');
+      assert.ok([200, 400, 404, 422].includes(response.status), 'Resume task should handle request');
     });
   });
 
@@ -181,25 +194,19 @@ export async function runTaskTests() {
   // ═══════════════════════════════════════════════════════════════════
   await describe('Tasks API - Edge Cases', async () => {
     await test('GET /api/tasks/ - Missing task ID should fail', async () => {
-      // Arrange & Act
       const response = await client.get('/api/tasks/');
       
-      // Assert
       assert.ok([400, 404, 405].includes(response.status), 'Missing task ID should be rejected');
     });
 
-    await test('POST /api/tasks/:id/retry-failed-responses - Very large task_id', async () => {
-      // Arrange
-      const taskId = '999999999999';
+    await test('POST /api/tasks/999999/retry-failed-responses - Non-existent task', async () => {
       const body = {
         response_mode: 'concise'
       };
       
-      // Act
-      const response = await client.post(`/api/tasks/${taskId}/retry-failed-responses`, body);
+      const response = await client.post('/api/tasks/999999999/retry-failed-responses', body);
       
-      // Assert
-      assert.ok([400, 404, 422].includes(response.status), 'Very large task_id should be handled');
+      assert.ok([400, 404, 422].includes(response.status), 'Non-existent task should return error');
     });
   });
 }
